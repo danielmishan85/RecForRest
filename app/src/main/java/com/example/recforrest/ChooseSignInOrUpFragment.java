@@ -2,63 +2,68 @@ package com.example.recforrest;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChooseSignInOrUpFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.recforrest.databinding.FragmentChooseSignInOrUpBinding;
+import com.example.recforrest.databinding.FragmentSignUpBinding;
+
+
 public class ChooseSignInOrUpFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    @NonNull
+    FragmentChooseSignInOrUpBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ChooseSignInOrUpFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChooseSignInOrUpFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChooseSignInOrUpFragment newInstance(String param1, String param2) {
-        ChooseSignInOrUpFragment fragment = new ChooseSignInOrUpFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        FragmentActivity parentActivity = getActivity();
+        parentActivity.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        },this, Lifecycle.State.RESUMED);
+
     }
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choose_sign_in_or_up, container, false);
+
+        binding = FragmentChooseSignInOrUpBinding.inflate(inflater, container, false);
+        View view=binding.getRoot();
+
+        binding.chooseSignInBtn.setOnClickListener(view1 -> {
+            NavDirections action = ChooseSignInOrUpFragmentDirections.actionChooseSignInOrUpFragmentToSignInFragment();
+            Navigation.findNavController(view1).navigate(action);
+        });
+        binding.chooseSignUpBtn.setOnClickListener(view1 -> {
+            NavDirections action = ChooseSignInOrUpFragmentDirections.actionChooseSignInOrUpFragmentToSignUpFragment();
+            Navigation.findNavController(view1).navigate(action);
+        });
+
+        return view;
     }
 }
