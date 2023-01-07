@@ -25,4 +25,9 @@
         android:label="fragment_posts"
         tools:layout="@layout/fragment_posts" />
     <action android:id="@+id/action_global_signUpFragment" app:destination="@id/signUpFragment" />
+    <fragment
+        android:id="@+id/chooseSignInOrUpFragment"
+        android:name="com.example.recforrest.ChooseSignInOrUpFragment"
+        android:label="fragment_choose_sign_in_or_up"
+        tools:layout="@layout/fragment_choose_sign_in_or_up" /><action android:id="@+id/action_global_chooseSignInOrUpFragment" app:destination="@id/chooseSignInOrUpFragment"/>
 </navigation>
