@@ -1,6 +1,5 @@
 package com.example.recforrest;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,14 +19,15 @@ import android.view.ViewGroup;
 
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.User;
-import com.example.recforrest.databinding.FragmentChooseSignInOrUpBinding;
 import com.example.recforrest.databinding.FragmentSignUpBinding;
+import com.example.recforrest.databinding.FragmentUserInfoBinding;
 
 
-public class SignUpFragment extends Fragment {
+public class UserInfoFragment extends Fragment {
 
-
-    @NonNull FragmentSignUpBinding binding;
+    @NonNull
+    FragmentUserInfoBinding binding;
+    String email;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +36,6 @@ public class SignUpFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
 
             }
@@ -51,18 +50,27 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentSignUpBinding.inflate(inflater, container, false);
+        binding = FragmentUserInfoBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        email = UserInfoFragmentArgs.fromBundle(getArguments()).getEmail();
 
+        User user= Model.instance().getUserByEmail(email);
+        binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
+        binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
 
-        binding.SignUpFragmentSignUpBtn.setOnClickListener((view1 -> {
-            Model.instance().addUser(new User(binding.SignUpFragmentFullNameEditText.getText().toString(),binding.SignUpFragmentEmailEditText.getText().toString(),binding.SignUpFragmentPasswordEditText.getText().toString()));
-
-            SignUpFragmentDirections.ActionSignUpFragmentToUserInfoFragment action = SignUpFragmentDirections.actionSignUpFragmentToUserInfoFragment(binding.SignUpFragmentEmailEditText.getText().toString());
+        binding.UserInfoFragmentEditUserBtn.setOnClickListener((view1 -> {
+            UserInfoFragmentDirections.ActionUserInfoFragmentToUserEditFragment action = UserInfoFragmentDirections.actionUserInfoFragmentToUserEditFragment(email);
             Navigation.findNavController(view).navigate(action);
         }));
 
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        User user= Model.instance().getUserByEmail(email);
+        binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
+        binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
     }
 }

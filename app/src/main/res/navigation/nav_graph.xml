@@ -9,12 +9,20 @@
         android:id="@+id/signInFragment"
         android:name="com.example.recforrest.SignInFragment"
         android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" />
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.recforrest.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/postsFragment"
         android:name="com.example.recforrest.PostsFragment"
@@ -31,5 +39,26 @@
         <action
             android:id="@+id/action_chooseSignInOrUpFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.example.recforrest.UserInfoFragment"
+        android:label="fragment_user_info"
+        tools:layout="@layout/fragment_user_info" >
+        <action
+            android:id="@+id/action_userInfoFragment_to_userEditFragment"
+            app:destination="@id/userEditFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/userEditFragment"
+        android:name="com.example.recforrest.UserEditFragment"
+        android:label="fragment_user_edit"
+        tools:layout="@layout/fragment_user_edit" >
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
 </navigation>

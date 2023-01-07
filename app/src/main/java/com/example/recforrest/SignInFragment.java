@@ -6,9 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -24,7 +32,26 @@ public class SignInFragment extends Fragment {
 
     @NonNull
     FragmentSignInBinding binding;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentActivity parentActivity = getActivity();
+        parentActivity.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
+                menu.removeItem(R.id.postsFragment);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        }, this, Lifecycle.State.RESUMED);
+
+    }
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentSignInBinding.inflate(inflater, container, false);
@@ -49,9 +76,8 @@ public class SignInFragment extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent i = new Intent(getActivity(), UserActivity.class);
-                    i.putExtra("email",email);
-                    startActivity(i);
+                    SignInFragmentDirections.ActionSignInFragmentToUserInfoFragment action = SignInFragmentDirections.actionSignInFragmentToUserInfoFragment(email);
+                    Navigation.findNavController(view).navigate(action);
                 }
             }
             else {

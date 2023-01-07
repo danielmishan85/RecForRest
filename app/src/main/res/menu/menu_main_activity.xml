@@ -7,4 +7,14 @@
         android:icon="@drawable/ic_baseline_login_24"
         app:showAsAction="ifRoom"
         android:title="log in" />
+    <item
+        android:id="@+id/postsFragment"
+        android:icon="@drawable/ic_baseline_logout_24"
+        app:showAsAction="ifRoom"
+        android:title="log in" />
+<!--    <item-->
+    <!--        android:id="@+id/chooseSignInOrUpFragment"-->
+    <!--        android:icon="@drawable/ic_baseline_login_24"-->
+    <!--        app:showAsAction="ifRoom"-->
+    <!--        android:title="log in" />-->
 </menu>

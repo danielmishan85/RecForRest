@@ -28,6 +28,13 @@ public class Model {
         }
         return null;
     }
+
+    public void deleteUserByEmail(String email){
+        for(int i=0;i<allUsers.size();i++){
+            if (email.equals(allUsers.get(i).getEmail()))
+                allUsers.remove(i);
+        }
+    }
     public void printUser(String email){
         Log.d("TAG","user name : "+ getUserByEmail(email).getFullName().toString() +" user email : "+ getUserByEmail(email).getEmail().toString()+" user password : "+ getUserByEmail(email).getPassword().toString());
     }
