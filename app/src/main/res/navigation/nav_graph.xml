@@ -27,7 +27,11 @@
         android:id="@+id/postsFragment"
         android:name="com.example.recforrest.PostsFragment"
         android:label="fragment_posts"
-        tools:layout="@layout/fragment_posts" />
+        tools:layout="@layout/fragment_posts" >
+        <action
+            android:id="@+id/action_postsFragment_to_postInfoFragment"
+            app:destination="@id/postInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chooseSignInOrUpFragment"
         android:name="com.example.recforrest.ChooseSignInOrUpFragment"
@@ -60,5 +64,14 @@
         <argument
             android:name="email"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/postInfoFragment"
+        android:name="com.example.recforrest.PostInfoFragment"
+        android:label="fragment_post_info"
+        tools:layout="@layout/fragment_post_info" >
+        <argument
+            android:name="pos"
+            app:argType="integer" />
     </fragment>
 </navigation>

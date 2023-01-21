@@ -36,7 +36,7 @@ public class UserInfoFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menu.removeItem(R.id.postsFragment);
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
 
             }
 
