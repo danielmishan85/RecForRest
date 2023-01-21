@@ -15,7 +15,7 @@ public class Model {
     }
     private Model(){
         for(int i=0;i<20;i++){
-            addPost(new Post( i,"resturant "+i+" name ","city ","des ", "0235643"));
+            addPost(new Post( i,"resturant "+i,"dubai ","des ", "0235643"));
         }
     }
     List<User> allUsers = new LinkedList<>();
