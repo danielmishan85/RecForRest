@@ -1,11 +1,18 @@
 package com.example.recforrest;
 
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -20,88 +27,79 @@ import okhttp3.Response;
 public class WeatherAPI {
 
     String icon;
-    double temperature;
+    static double temperature;
 
-    public static WeatherAPI getWeatherDataForCity(String city) {
+    public static class GetWeatherTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String city = params[0];
+            String apiKey = "f501c3b6c235bca43062ed483367a3d9";
+            String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
-        String apiKey="f501c3b6c235bca43062ed483367a3d9";
+            try {
+                URL apiEndpoint = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) apiEndpoint.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
 
-
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
-
-        // Create a new OkHttpClient
-        OkHttpClient client = new OkHttpClient();
-
-        // Create a new request using the GET method
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        // Use an Executor to make the API call in the background
-        Executor executor = Executors.newSingleThreadExecutor();
-        Future<WeatherAPI> future = ((ExecutorService) executor).submit(new Callable<WeatherAPI>() {
-            @Override
-            public WeatherAPI call() throws Exception {
-                try {
-                    // Make the API call using the client and get the response
-                    Response response = client.newCall(request).execute();
-
-                    // Check the status code of the response to make sure the request was successful
-                    if (response.code() == 200) {
-                        // Get the weather data from the API response
-                        String responseBody = response.body().string();
-                        JSONObject json = new JSONObject(responseBody);
-
-                        WeatherAPI information = new WeatherAPI();
-                        information.icon = updateIcon(json.getJSONArray("weather").getJSONObject(0).getInt("id"));
-                        information.temperature = json.getJSONObject("main").getDouble("temp")-273.27;
-
-
-                        return information;
-                    } else {
-                        // An error occurred, return null
-                        return null;
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    InputStream responseBody = connection.getInputStream();
+                    InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
+                    BufferedReader reader = new BufferedReader(responseBodyReader);
+                    StringBuilder builder = new StringBuilder();
+                    String line = reader.readLine();
+                    while (line != null) {
+                        builder.append(line);
+                        line = reader.readLine();
                     }
-                } catch (IOException | JSONException e) {
-                    // An error occurred, return null
+                    return builder.toString();
+                } else {
+                    Log.d("TAG", "Error: " + responseCode);
                     return null;
                 }
+            } catch (IOException e) {
+                Log.d("TAG", "Error: " + e.getMessage());
+                return null;
             }
-        });
+        }
 
-        try {
-            // Wait for the background task to complete and return the result
-            return future.get();
-        } catch (InterruptedException | ExecutionException e) {
-            // An error occurred, return null
-            return null;
+        @Override
+        protected void onPostExecute(String result) {
+            // Update the UI with the temperature value
+            try {
+                JSONObject json = new JSONObject(result);
+                temperature = json.getJSONObject("main").getDouble("temp");
+                PostInfoFragment.changeIconAccordingToTemp(temperature);
+            } catch (JSONException e) {
+                Log.w("TAG", "Error: " + e.getMessage());
+            }
         }
     }
 
-
-
-    public static String updateIcon(int state) {
-        if (state >= 200 && state <= 232) {
-            return "thunderstorm1";
-        } else if (state >= 300 && state <= 321) {
-            return "lightrain";
-        } else if (state >= 500 && state <= 531) {
-            return "thunderstorm1";
-        } else if (state >= 600 && state <= 622) {
-            return "snow1";
-        } else if (state >= 701 && state <= 781) {
-            return "fog";
-        } else if (state == 800) {
-            return "sunny";
-        } else if (state == 801 || state == 802) {
-            return "cloudy";
-        } else if (state == 803 || state == 804) {
-            return "overcast";
-        } else if (state >= 900 && state <= 906) {
-            return "thunderstorm2";
-        } else {
-            return "launcher";
-        }
-    }
+//
+//    public static String updateIcon(int state) {
+//        if (state >= 200 && state <= 232) {
+//            return "thunderstorm1";
+//        } else if (state >= 300 && state <= 321) {
+//            return "lightrain";
+//        } else if (state >= 500 && state <= 531) {
+//            return "thunderstorm1";
+//        } else if (state >= 600 && state <= 622) {
+//            return "snow1";
+//        } else if (state >= 701 && state <= 781) {
+//            return "fog";
+//        } else if (state == 800) {
+//            return "sunny";
+//        } else if (state == 801 || state == 802) {
+//            return "cloudy";
+//        } else if (state == 803 || state == 804) {
+//            return "overcast";
+//        } else if (state >= 900 && state <= 906) {
+//            return "thunderstorm2";
+//        } else {
+//            return "launcher";
+//        }
+//    }
 
 }

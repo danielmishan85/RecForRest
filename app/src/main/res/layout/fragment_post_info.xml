@@ -109,7 +109,6 @@
         android:id="@+id/postInfoFragment_weather_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/ic_baseline_file_copy_24"
         app:layout_constraintBottom_toTopOf="@+id/postInfoFragment_back_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
