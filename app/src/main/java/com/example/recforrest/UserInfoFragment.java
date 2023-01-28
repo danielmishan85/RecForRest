@@ -27,7 +27,7 @@ public class UserInfoFragment extends Fragment {
 
     @NonNull
     FragmentUserInfoBinding binding;
-    String email;
+    static String email;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
