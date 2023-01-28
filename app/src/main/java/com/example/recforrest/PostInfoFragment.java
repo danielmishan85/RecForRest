@@ -1,64 +1,115 @@
 package com.example.recforrest;
 
+import android.media.Image;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PostInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.Post;
+import com.example.recforrest.databinding.FragmentPostInfoBinding;
+import com.example.recforrest.databinding.FragmentSignInBinding;
+
+import java.util.List;
+
+
 public class PostInfoFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public PostInfoFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostInfoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PostInfoFragment newInstance(String param1, String param2) {
-        PostInfoFragment fragment = new PostInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    int pos;
+    TextView city, description, name;
+    static ImageView icon;
+    static TextView temperaturetv;
+    Button backBtn,editBtn;
+    Post p;
+    List<Post> postsList= Model.instance().getAllPosts();
+    @NonNull FragmentPostInfoBinding binding;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        FragmentActivity parentActivity = getActivity();
+        parentActivity.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
+                menu.removeItem(R.id.postsFragment);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        }, this, Lifecycle.State.RESUMED);
+
+    }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentPostInfoBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        pos = PostInfoFragmentArgs.fromBundle(getArguments()).getPos();
+
+
+        icon=view.findViewById(R.id.postInfoFragment_weather_icon);
+        temperaturetv=view.findViewById(R.id.postInfoFragment_temp);
+
+        p=postsList.get(pos);
+        this.bind(p,pos);
+
+
+        binding.postInfoFragmentBackBtn.setOnClickListener(view1 ->{
+            Navigation.findNavController(view1).popBackStack();
+        } );
+        return view;
+    }
+
+    public void bind(Post post, int pos) {
+        binding.postInfoFragmentEditCity.setText(post.getCity());
+        binding.postInfoFragmentEditRestaurantName.setText(post.getRestaurantName());
+        binding.postInfoFragmentEditDescription.setText(post.getDescription());
+        WeatherAPI.GetWeatherTask task = new WeatherAPI.GetWeatherTask();
+        task.execute(binding.postInfoFragmentEditCity.getText().toString());
+    }
+
+    public static void changeIconAccordingToTemp(double temperature)
+    {
+        int roundTemp=(int)Math.round(temperature-273.27);
+        temperaturetv.setText(roundTemp+" °C");
+        if (temperature < 273.15) {
+            // Cold
+            icon.setImageResource(R.drawable.cold_icon);
+        } else if (temperature < 283.15) {
+            // Cool
+            icon.setImageResource(R.drawable.cool_icon);
+        } else if (temperature < 293.15) {
+            // Mild
+            icon.setImageResource(R.drawable.mild_icon);
+        } else {
+            // Hot
+            icon.setImageResource(R.drawable.hot_icon);
         }
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_post_info, container, false);
+    public void onStart() {
+        super.onStart();
+        bind(p,pos);
     }
 }
