@@ -6,14 +6,14 @@ public class Post {
     private String restaurantName;
     private String city;
     private String description;
-    private String phone;
+    private String email;
 
     public Post(int id,String restaurantName, String city, String description, String phone) {
         this.id=id;
         this.restaurantName = restaurantName;
         this.city = city;
         this.description = description;
-        this.phone = phone;
+        this.email = phone;
     }
 
     public int getId() {
@@ -48,11 +48,11 @@ public class Post {
         this.description = description;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

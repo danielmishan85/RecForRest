@@ -52,6 +52,8 @@ public class PostsFragment extends Fragment {
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 //menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
+                menu.removeItem(R.id.myPostFragment);
+
 
             }
 
@@ -80,8 +82,8 @@ public class PostsFragment extends Fragment {
 
         adapter.setOnItemClickListener((int pos)-> {
 
-                    PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
-                    Navigation.findNavController(view).navigate(action);
+                  /*  PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
+                    Navigation.findNavController(view).navigate(action);*/
 
                 }
         );

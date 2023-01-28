@@ -10,7 +10,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,9 +26,6 @@ public class MainActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this,navController);
 
-//        NavHostFragment navHostFragment2 = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.user_navhost);
-//        navController2 = navHostFragment.getNavController();
-//        NavigationUI.setupActionBarWithNavController(this, navController);
 
     }
 
@@ -47,11 +43,9 @@ public class MainActivity extends AppCompatActivity {
             navController.popBackStack();
         }
         if (item.getItemId() == R.id.myPostFragment){
-            Intent intent = new Intent(this, UserActivity.class);
             String email = UserInfoFragment.email;
-            intent.putExtra("email", email);
-            startActivity(intent);
-
+            NavDirections action= MyPostFragmentDirections.actionGlobalMyPostFragment(email);
+            Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
 
         }
         else{

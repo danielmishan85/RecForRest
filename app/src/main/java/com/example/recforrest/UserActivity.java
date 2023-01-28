@@ -31,7 +31,7 @@ public class UserActivity extends AppCompatActivity {
 //        MyPostFragment fragment = new MyPostFragment();
 //        fragment.setArguments(args);
 
-        NavDirections action= MyPostFragmentDirections.actionGlobalMyPostFragment2(email);
-        Navigation.findNavController(this, R.id.user_navhost).navigate(action);
+//        NavDirections action= MyPostFragmentDirections.actionGlobalMyPostFragment2(email);
+//        Navigation.findNavController(this, R.id.user_navhost).navigate(action);
     }
 }

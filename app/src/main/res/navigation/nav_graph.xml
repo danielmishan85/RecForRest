@@ -74,4 +74,22 @@
             android:name="pos"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/myPostFragment"
+        android:name="com.example.recforrest.MyPostFragment"
+        android:label="fragment_my_post"
+        tools:layout="@layout/fragment_my_post" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_myPostFragment_to_myPostInfoFragment"
+            app:destination="@id/myPostInfoFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_myPostFragment" app:destination="@id/myPostFragment" />
+    <fragment
+        android:id="@+id/myPostInfoFragment"
+        android:name="com.example.recforrest.MyPostInfoFragment"
+        android:label="fragment_my_post_info"
+        tools:layout="@layout/fragment_my_post_info" />
 </navigation>

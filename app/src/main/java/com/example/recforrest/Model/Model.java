@@ -2,7 +2,6 @@ package com.example.recforrest.Model;
 
 import android.util.Log;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,7 +57,14 @@ public class Model {
         }
         return null;
     }
-
+    public List<Post> getMyPosts(String email){
+        List<Post> myPosts=new LinkedList<>();
+        for(Post p:allPosts){
+            if (email.equals(p.getEmail()))
+                myPosts.add(p);
+        }
+        return myPosts;
+    }
     public void deletePostById(int id){
         for(int i=0;i<allPosts.size();i++){
             if (id==allPosts.get(i).getId())
@@ -66,7 +72,7 @@ public class Model {
         }
     }
     public void printPost(int id){
-        Log.d("TAG","post id : "+ getPostById(id).getId() +"post city : "+ getPostById(id).getCity().toString()+"post description : "+ getPostById(id).getDescription().toString()+"post phone : "+ getPostById(id).getPhone().toString());
+        Log.d("TAG","post id : "+ getPostById(id).getId() +"post city : "+ getPostById(id).getCity().toString()+"post description : "+ getPostById(id).getDescription().toString()+"post phone : "+ getPostById(id).getEmail().toString());
     }
 
 }

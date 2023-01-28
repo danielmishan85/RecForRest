@@ -2,18 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_user"
-    app:startDestination="@id/myPostFragment">
-    <fragment
-        android:id="@+id/myPostFragment"
-        android:name="com.example.recforrest.MyPostFragment"
-        android:label="fragment_my_post"
-        tools:layout="@layout/fragment_my_post" >
-        <argument
-            android:name="email"
-            app:argType="string" />
-    </fragment>
-    <action android:id="@+id/action_global_myPostFragment2" app:destination="@id/myPostFragment" />
+    android:id="@+id/nav_graph_user">
     <argument
         android:name="email"
         android:defaultValue="none" />
