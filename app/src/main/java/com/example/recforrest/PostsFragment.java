@@ -82,8 +82,8 @@ public class PostsFragment extends Fragment {
 
         adapter.setOnItemClickListener((int pos)-> {
 
-                  /*  PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
-                    Navigation.findNavController(view).navigate(action);*/
+                    PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
+                    Navigation.findNavController(view).navigate(action);
 
                 }
         );

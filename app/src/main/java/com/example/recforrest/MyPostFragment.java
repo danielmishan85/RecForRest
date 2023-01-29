@@ -9,6 +9,7 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +37,7 @@ public class MyPostFragment extends Fragment {
     RecyclerView list;
     MyPostFragment.ReviewRecyclerAdapter adapter;
     Button add;
-
+    String email;
 
 
     @Override
@@ -66,10 +67,12 @@ public class MyPostFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_my_post, container, false);
-        myPostsList = Model.instance().getAllPosts();
+        //View view = inflater.inflate(R.layout.fragment_my_post, container, false);
         binding = FragmentMyPostBinding.inflate(inflater, container, false);
-        String email = MyPostFragmentArgs.fromBundle(getArguments()).getEmail();
+        View view=binding.getRoot();
+        email= MyPostFragmentArgs.fromBundle(getArguments()).getEmail();
+        myPostsList = Model.instance().getMyPosts(email);
+
 
 
         list = view.findViewById(R.id.myPostFrag_rv);
@@ -80,9 +83,16 @@ public class MyPostFragment extends Fragment {
         list.setAdapter(adapter);
 
 
+        binding.myPostFragNewPostBtn.setOnClickListener(view1 ->{
+
+            MyPostFragmentDirections.ActionMyPostFragmentToNewPostFragment action = MyPostFragmentDirections.actionMyPostFragmentToNewPostFragment(email);
+            Navigation.findNavController(view).navigate(action);
+
+        });
+
         adapter.setOnItemClickListener((int pos)-> {
 
-                    PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
+                    MyPostFragmentDirections.ActionMyPostFragmentToMyPostInfoFragment action = MyPostFragmentDirections.actionMyPostFragmentToMyPostInfoFragment(pos,email);
                     Navigation.findNavController(view).navigate(action);
 
                 }
@@ -95,6 +105,7 @@ public class MyPostFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        myPostsList = Model.instance().getMyPosts(email);
         adapter.notifyDataSetChanged();
 
 

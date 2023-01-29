@@ -85,11 +85,31 @@
         <action
             android:id="@+id/action_myPostFragment_to_myPostInfoFragment"
             app:destination="@id/myPostInfoFragment" />
+        <action
+            android:id="@+id/action_myPostFragment_to_newPostFragment"
+            app:destination="@id/newPostFragment" />
     </fragment>
     <action android:id="@+id/action_global_myPostFragment" app:destination="@id/myPostFragment" />
     <fragment
         android:id="@+id/myPostInfoFragment"
         android:name="com.example.recforrest.MyPostInfoFragment"
         android:label="fragment_my_post_info"
-        tools:layout="@layout/fragment_my_post_info" />
+        tools:layout="@layout/fragment_my_post_info" >
+        <argument
+            android:name="pos"
+            app:argType="integer" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPostFragment"
+        android:name="com.example.recforrest.NewPostFragment"
+        android:label="fragment_new_post"
+        tools:layout="@layout/fragment_new_post" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_newPostFragment" app:destination="@id/newPostFragment" />
 </navigation>

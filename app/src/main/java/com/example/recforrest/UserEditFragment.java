@@ -22,11 +22,7 @@ import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentUserEditBinding;
 import com.example.recforrest.databinding.FragmentUserInfoBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserEditFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class UserEditFragment extends Fragment {
 
     @NonNull

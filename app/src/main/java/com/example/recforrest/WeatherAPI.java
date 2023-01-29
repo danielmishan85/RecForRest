@@ -33,7 +33,9 @@ public class WeatherAPI {
         @Override
         protected String doInBackground(String... params) {
             String city = params[0];
-            String apiKey = "f501c3b6c235bca43062ed483367a3d9";
+            Log.w("TAG", "city: " + city);
+
+            String apiKey = "457824bee154cd1f95301371e98017db";
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 
             try {

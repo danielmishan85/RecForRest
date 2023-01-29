@@ -2,18 +2,20 @@ package com.example.recforrest.Model;
 
 public class Post {
 
+    public static int numOfPosts;
     private int id;
     private String restaurantName;
     private String city;
     private String description;
     private String email;
 
-    public Post(int id,String restaurantName, String city, String description, String phone) {
-        this.id=id;
+    public Post(int id,String restaurantName, String city, String description, String email) {
+        this.id=numOfPosts;
         this.restaurantName = restaurantName;
         this.city = city;
         this.description = description;
-        this.email = phone;
+        this.email = email;
+        numOfPosts++;
     }
 
     public int getId() {
