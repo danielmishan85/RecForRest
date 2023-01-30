@@ -101,6 +101,9 @@
         <argument
             android:name="email"
             app:argType="string" />
+        <action
+            android:id="@+id/action_myPostInfoFragment_to_myPostEditFragment"
+            app:destination="@id/myPostEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
@@ -112,4 +115,13 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_newPostFragment" app:destination="@id/newPostFragment" />
+    <fragment
+        android:id="@+id/myPostEditFragment"
+        android:name="com.example.recforrest.MyPostEditFragment"
+        android:label="fragment_my_post_edit"
+        tools:layout="@layout/fragment_my_post_edit" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

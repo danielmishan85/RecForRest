@@ -28,11 +28,12 @@ public class WeatherAPI {
 
     String icon;
     static double temperature;
-
+    static String fragmentId;
     public static class GetWeatherTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             String city = params[0];
+            fragmentId = params[1];
             Log.w("TAG", "city: " + city);
 
             String apiKey = "457824bee154cd1f95301371e98017db";
@@ -72,7 +73,17 @@ public class WeatherAPI {
             try {
                 JSONObject json = new JSONObject(result);
                 temperature = json.getJSONObject("main").getDouble("temp");
-                PostInfoFragment.changeIconAccordingToTemp(temperature);
+                if(fragmentId.equals("my posts"))
+                {
+                    MyPostInfoFragment.changeIconAccordingToTemp(temperature);
+                }
+                else if (fragmentId.equals("all posts"))
+                {
+                    PostInfoFragment.changeIconAccordingToTemp(temperature);
+                }
+
+
+
             } catch (JSONException e) {
                 Log.w("TAG", "Error: " + e.getMessage());
             }

@@ -86,7 +86,7 @@ public class PostInfoFragment extends Fragment {
         binding.postInfoFragmentEditRestaurantName.setText(post.getRestaurantName());
         binding.postInfoFragmentEditDescription.setText(post.getDescription());
         WeatherAPI.GetWeatherTask task = new WeatherAPI.GetWeatherTask();
-        task.execute(binding.postInfoFragmentEditCity.getText().toString());
+        task.execute(binding.postInfoFragmentEditCity.getText().toString(),"all posts");
     }
 
     public static void changeIconAccordingToTemp(double temperature)

@@ -3,9 +3,18 @@ package com.example.recforrest;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +36,26 @@ public class MyPostInfoFragment extends Fragment {
     @NonNull FragmentMyPostInfoBinding binding;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentActivity parentActivity = getActivity();
+        parentActivity.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
+//                menu.removeItem(R.id.postsFragment);
+//                menu.removeItem(R.id.myPostFragment);
+
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        }, this, Lifecycle.State.RESUMED);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -41,7 +70,14 @@ public class MyPostInfoFragment extends Fragment {
         p= Model.instance().getMyPosts(email).get(pos);
         bind(p);
 
+        binding.myPostInfoFragmentBackBtn.setOnClickListener(view1 ->{
+            Navigation.findNavController(view1).popBackStack();
+        } );
 
+        binding.myPostInfoFragmentEditBtn.setOnClickListener(view1 ->{
+            NavDirections action = MyPostInfoFragmentDirections.actionMyPostInfoFragmentToMyPostEditFragment(p.getId());
+            Navigation.findNavController(view1).navigate(action);
+        } );
         return view;
     }
 
@@ -50,7 +86,7 @@ public class MyPostInfoFragment extends Fragment {
         binding.myPostInfoFragmentEditRestaurantName.setText(post.getRestaurantName());
         binding.myPostInfoFragmentEditDescription.setText(post.getDescription());
         WeatherAPI.GetWeatherTask task = new WeatherAPI.GetWeatherTask();
-        task.execute(binding.myPostInfoFragmentEditCity.getText().toString());
+        task.execute(binding.myPostInfoFragmentEditCity.getText().toString(),"my posts");
     }
 
     public static void changeIconAccordingToTemp(double temperature)
