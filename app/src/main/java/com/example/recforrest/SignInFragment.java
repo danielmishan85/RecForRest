@@ -25,6 +25,10 @@ import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentSignInBinding;
 import com.example.recforrest.databinding.FragmentSignUpBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class SignInFragment extends Fragment {
@@ -32,6 +36,8 @@ public class SignInFragment extends Fragment {
 
     @NonNull
     FragmentSignInBinding binding;
+    FirebaseAuth firebaseAuth;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +64,7 @@ public class SignInFragment extends Fragment {
 
         binding = FragmentSignInBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        firebaseAuth= FirebaseAuth.getInstance();
 
         binding.SignInFragmentSignInBtn.setOnClickListener((view1) -> {
 
@@ -72,20 +79,40 @@ public class SignInFragment extends Fragment {
                     dialog.dismiss();
                 }
             });
-            User user= Model.instance().getUserByEmail(email);
-            if(user!=null){
-                if(!user.getPassword().equals(password)){
-                    Toast.makeText(getActivity().getApplicationContext(),"Wrong password",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    SignInFragmentDirections.ActionSignInFragmentToUserInfoFragment action = SignInFragmentDirections.actionSignInFragmentToUserInfoFragment(email);
-                    Navigation.findNavController(view).navigate(action);
-                }
-            }
-            else {
-                Toast.makeText(getActivity().getApplicationContext(),"Wrong email",Toast.LENGTH_LONG).show();
-            }
 
+            if((!(password.equals("")) && !(email.equals("")))) {
+
+                firebaseAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        SignInFragmentDirections.ActionSignInFragmentToUserInfoFragment action = SignInFragmentDirections.actionSignInFragmentToUserInfoFragment(email);
+                        Navigation.findNavController(view).navigate(action);
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+            }
+//                User user = Model.instance().getUserByEmail(email);
+//                if (user != null) {
+//                    if (!user.getPassword().equals(password)) {
+//                        Toast.makeText(getActivity().getApplicationContext(), "Wrong password", Toast.LENGTH_LONG).show();
+//                    } else {
+//                        SignInFragmentDirections.ActionSignInFragmentToUserInfoFragment action = SignInFragmentDirections.actionSignInFragmentToUserInfoFragment(email);
+//                        Navigation.findNavController(view).navigate(action);
+//                    }
+//                } else {
+//                    Toast.makeText(getActivity().getApplicationContext(), "Wrong email", Toast.LENGTH_LONG).show();
+//                }
+//            }
+            else {
+                Toast.makeText(getActivity().getApplicationContext(), "fill all the fields", Toast.LENGTH_LONG).show();
+
+            }
         });
 
 
