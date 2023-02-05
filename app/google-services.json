@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1004224292853",
+    "project_id": "recforrest-5322a",
+    "storage_bucket": "recforrest-5322a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004224292853:android:604ce699ebb8f355ebe2bc",
+        "android_client_info": {
+          "package_name": "com.example.recforrest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1004224292853-o1rhsevl1gbu95fd4se9o3no4kmh70n2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUSRSnoPmTD7gKjQm5STKlz7qTJZq_24Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1004224292853-o1rhsevl1gbu95fd4se9o3no4kmh70n2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

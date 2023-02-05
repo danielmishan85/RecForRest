@@ -158,4 +158,13 @@ public class PostsFragment extends Fragment {
     }
 
 
+//    void reloadData(){
+//        binding.progressBar.setVisibility(View.VISIBLE);
+//        Model.instance().getAllStudents((stList)->{
+//            viewModel.setData(stList);
+//            adapter.setData(viewModel.getData());
+//            binding.progressBar.setVisibility(View.GONE);
+//        });
+//    }
+
 }

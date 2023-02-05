@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentMyPostInfoBinding;
-import com.example.recforrest.databinding.FragmentSignUpBinding;
 
 
 public class MyPostInfoFragment extends Fragment {
@@ -75,7 +74,7 @@ public class MyPostInfoFragment extends Fragment {
         } );
 
         binding.myPostInfoFragmentEditBtn.setOnClickListener(view1 ->{
-            NavDirections action = MyPostInfoFragmentDirections.actionMyPostInfoFragmentToMyPostEditFragment(p.getId());
+            NavDirections action = MyPostInfoFragmentDirections.actionMyPostInfoFragmentToMyPostEditFragment(p.getPostId());
             Navigation.findNavController(view1).navigate(action);
         } );
         return view;
