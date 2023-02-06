@@ -1,4 +1,4 @@
-package com.example.recforrest.Model;
+package com.example.recforrest.model;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase;
 import com.example.recforrest.MyApplication;
 
 
-@Database(entities = {Post.class}, version = 1)
+@Database(entities = {Post.class}, version = 4)
 //return the Daos
     abstract class AppLocalDbRepository extends RoomDatabase {
         public abstract PostDao postDao();

@@ -1,4 +1,4 @@
-package com.example.recforrest.Model;
+package com.example.recforrest.model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -37,7 +37,7 @@ public class FireBaseModel {
     }
     ///////---------------------------REVIEW------------------------------------------
 
-    public void getAllReviewsSince(Long since, Model.Listener<List<Post>> callback){
+    public void getAllPostsSince(Long since, Model.Listener<List<Post>> callback){
         db.collection(Post.COLLECTION)
                 .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, new Timestamp(since,0))
                 .get()

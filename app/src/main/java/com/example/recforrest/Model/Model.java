@@ -1,4 +1,4 @@
-package com.example.recforrest.Model;
+package com.example.recforrest.model;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -21,9 +21,7 @@ public class Model {
     public static Model instance(){
         return _instance;
     }
-    private Model(){
 
-    }
     AppLocalDbRepository localDb=AppLocalDb.getAppDb();
     Executor executor = Executors.newSingleThreadExecutor();
     private Handler mainHandler = HandlerCompat.createAsync(Looper.getMainLooper());
@@ -58,7 +56,7 @@ public class Model {
 
 //POSTS
 
-    public LiveData<List<Post>> getAllReviews() {
+    public LiveData<List<Post>> getAllPosts() {
         if(postsList == null){
             postsList = localDb.postDao().getAllPosts();
             refreshAllPosts();
@@ -71,7 +69,7 @@ public class Model {
         // get local last update
         Long localLastUpdate = Post.getLocalLastUpdate();
         // get all updated recorde from firebase since local last update
-        firebaseModel.getAllReviewsSince(localLastUpdate,list->{
+        firebaseModel.getAllPostsSince(localLastUpdate,list->{
             executor.execute(()->{
                 Log.d("TAG", " firebase return : " + list.size());
                 Long time = localLastUpdate;
@@ -108,7 +106,7 @@ public class Model {
     }
 
 
-    public List<Post> getMyReviews(List<Post> all, String email){
+    public List<Post> getMyPosts(List<Post> all, String email){
 
         List<Post> mine=new LinkedList<>();
         for(Post post: all)
@@ -156,13 +154,13 @@ public class Model {
 //    public List<Post> getAllPosts(){
 //        return allPosts;
 //    }
-//    public Post getPostById(int id){
-//        for(Post p:allPosts){
-//            if (id==p.getPostId())
-//                return p;
-//        }
-//        return null;
-//    }
+    public Post getPostById(List<Post> allPosts,int id){
+        for(Post p:allPosts){
+            if (id==p.getPostId())
+                return p;
+        }
+        return null;
+    }
 //    public List<Post> getMyPosts(String email){
 //        List<Post> myPosts=new LinkedList<>();
 //        for(Post p:allPosts){
