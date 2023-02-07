@@ -80,6 +80,11 @@ public class MyPostInfoFragment extends Fragment {
         temperaturetv=view.findViewById(R.id.myPostInfoFragment_temp);
 
         p= Model.instance().getMyPosts(viewModel.getData().getValue(),email).get(pos);
+        if (p.getImg()  != null && !p.getImg().isEmpty()) {
+            Picasso.get().load(p.getImg()).placeholder(R.drawable.cold_icon).into(avatarImg);
+        }else{
+            avatarImg.setImageResource(R.drawable.cold_icon);
+        }
         bind(p);
 
 
@@ -131,5 +136,12 @@ public class MyPostInfoFragment extends Fragment {
     public void onStart() {
         super.onStart();
         bind(p);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        bind(p);
+
     }
 }

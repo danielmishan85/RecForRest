@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
 
         }
+
+
         else{
             return NavigationUI.onNavDestinationSelected(item,navController);
 

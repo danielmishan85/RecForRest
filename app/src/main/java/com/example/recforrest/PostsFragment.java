@@ -10,11 +10,11 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,6 +44,8 @@ public class PostsFragment extends Fragment {
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
     Button add;
+    SwipeRefreshLayout swipe;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -81,11 +83,12 @@ public class PostsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
         list = view.findViewById(R.id.postsFragment_rv);
         list.setHasFixedSize(true);
-//        viewModel=new PostsFragmentViewModel();
+        swipe= view.findViewById(R.id.posts_swipeRefresh);
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
        // LiveData<List<Post>> l =Model.instance().getAllPosts();
         adapter = new ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
+
 
 
         adapter.setOnItemClickListener((int pos)-> {
@@ -99,13 +102,13 @@ public class PostsFragment extends Fragment {
             adapter.setData(list);
         });
 
-//        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
-//            sr.setRefreshing(status == Model.LoadingState.LOADING);
-//        });
-//
-//        sr.setOnRefreshListener(()->{
-//            reloadData();
-//        });
+        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
+            swipe.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        swipe.setOnRefreshListener(()->{
+            reloadData();
+        });
         return view;
 
     }

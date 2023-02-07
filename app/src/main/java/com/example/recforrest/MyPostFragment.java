@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class MyPostFragment extends Fragment {
     MyPostFragment.ReviewRecyclerAdapter adapter;
     String email;
     MyPostFragmentViewModel viewModel;
+    SwipeRefreshLayout swipe;
 
 
     @Override
@@ -77,6 +79,7 @@ public class MyPostFragment extends Fragment {
         binding = FragmentMyPostBinding.inflate(inflater, container, false);
         View view=binding.getRoot();
         email= MyPostFragmentArgs.fromBundle(getArguments()).getEmail();
+         swipe =view.findViewById(R.id.myPosts_swipeRefresh);
 
 
 
@@ -99,15 +102,13 @@ public class MyPostFragment extends Fragment {
             adapter.setData(viewModel.getMyData(list,email));
         });
 
-//        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
-//            sw.setRefreshing(status == Model.LoadingState.LOADING);
-//        });
-//
-//        sw.setOnRefreshListener(()->{
-//            reloadData();
-//            Log.d("TAG", "refresh");
-//
-//        });
+        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
+            swipe.setRefreshing(status == Model.LoadingState.LOADING);
+        });
+
+        swipe.setOnRefreshListener(()->{
+            reloadData();
+        });
         adapter.setOnItemClickListener((int pos)-> {
 
                     MyPostFragmentDirections.ActionMyPostFragmentToMyPostInfoFragment action = MyPostFragmentDirections.actionMyPostFragmentToMyPostInfoFragment(pos,email);

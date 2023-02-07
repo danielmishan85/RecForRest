@@ -1,7 +1,13 @@
 package com.example.recforrest;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
@@ -10,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +27,7 @@ import android.view.ViewGroup;
 import com.example.recforrest.model.Model;
 import com.example.recforrest.model.User;
 import com.example.recforrest.databinding.FragmentUserEditBinding;
+import com.squareup.picasso.Picasso;
 
 
 public class UserEditFragment extends Fragment {
@@ -27,6 +35,11 @@ public class UserEditFragment extends Fragment {
     @NonNull
     FragmentUserEditBinding binding;
     String email;
+    ActivityResultLauncher<Void> cameraLauncher;
+    ActivityResultLauncher<String> galleryLauncher;
+    Boolean isAvatarSelected = false;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +64,7 @@ public class UserEditFragment extends Fragment {
         binding = FragmentUserEditBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         email = UserEditFragmentArgs.fromBundle(getArguments()).getEmail();
-
+        bindPic();
 
         //binding.UserEditFragmentShowFullNameEditText.setHint(Model.instance().getUserByEmail(email).getFullName().toString());
 
@@ -65,21 +78,77 @@ public class UserEditFragment extends Fragment {
                 User user = Model.instance().getUserByEmail(list,email);
                 if(!fullName.equals(""))
                     user.setFullName(fullName);
-                Model.instance().addUser(user,()->{
-                    Navigation.findNavController(view).popBackStack();
-                });
+                if (isAvatarSelected){
+                    binding.UserEditFragmentImageview.setDrawingCacheEnabled(true);
+                    binding.UserEditFragmentImageview.buildDrawingCache();
+                    Bitmap bitmap = ((BitmapDrawable) binding.UserEditFragmentImageview.getDrawable()).getBitmap();
+                    Model.instance().uploadImage(String.valueOf(user.getEmail()), bitmap, url->{
+                        if (url != null){
+                            user.setImg(url);
+                        }
+                        Model.instance().addUser(user,()->{
+                            //pb.setVisibility(View.GONE);
+                            Log.d("tag","123");
+
+                        });
+                        Navigation.findNavController(view1).popBackStack();
+
+                    });
+                }else {
+                    Model.instance().addUser(user,()->{
+                        //  pb.setVisibility(View.GONE);
+                        Log.d("tag","123");
+                    });
+                    Navigation.findNavController(view1).popBackStack();
+
+                }
 
             });
 
-//            if(!password.equals(""))
-//                user.setPassword(password);
 
+        } );
 
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+            @Override
+            public void onActivityResult(Bitmap result) {
+                if (result != null) {
+                    binding.UserEditFragmentImageview.setImageBitmap(result);
+                    isAvatarSelected = true;
+                }
+            }
         });
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null){
+                    binding.UserEditFragmentImageview.setImageURI(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
+
+        binding.chooseFromCamera2.setOnClickListener(view1->{
+            cameraLauncher.launch(null);
+        });
+
+        binding.chooseFromGallery2.setOnClickListener(view1->{
+            galleryLauncher.launch("media/*");
+        });
+
 
         binding.UserEditFragmentCancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
 
 
         return view;
+    }
+    public void bindPic(){
+        Model.instance().getAllUsers(list-> {
+            User user = Model.instance().getUserByEmail(list, email);
+            if (user.getImg() != "") {
+                Picasso.get().load(user.getImg()).placeholder(R.drawable.cold_icon).into(binding.UserEditFragmentImageview);
+            } else {
+                binding.UserEditFragmentImageview.setImageResource(R.drawable.cold_icon);
+            }
+        });
     }
 }
