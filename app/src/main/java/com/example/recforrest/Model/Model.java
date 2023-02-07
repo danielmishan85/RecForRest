@@ -4,11 +4,9 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -45,6 +43,7 @@ public class Model {
     public void getAllUsers(Listener<List<User>> callback){
         firebaseModel.getAllUsers(callback);
     }
+
     public User getUserByEmail(List<User> users, String email){
         for(User u:users)
         {
@@ -52,6 +51,14 @@ public class Model {
                 return u;
         }
         return new User();
+    }
+
+    public Post getPostById(List<Post> allPosts,int id){
+        for(Post p:allPosts){
+            if (id==p.getPostId())
+                return p;
+        }
+        return null;
     }
 
 //POSTS
@@ -87,7 +94,6 @@ public class Model {
                 }
                 // update local last update
                 Post.setLocalLastUpdate(time);
-                Log.d("TAG", " loding");
                 EventReviewsListLoadingState.postValue(LoadingState.NOT_LOADING);
             });
         });
@@ -100,11 +106,6 @@ public class Model {
             listener.onComplete();
         });
     }
-
-    public void getAllPosts(Listener<List<Post>> callback){
-        firebaseModel.getAllPosts(callback);
-    }
-
 
     public List<Post> getMyPosts(List<Post> all, String email){
 
@@ -122,61 +123,4 @@ public class Model {
     public void uploadImage(String name, Bitmap bitmap, Listener<String> listener) {
         firebaseModel.uploadImage(name,bitmap,listener);
     }
-
-
-//
-////*******************************User************************************
-//    public void addUser(User u){allUsers.add(u);}
-//    public List<User> getAllUsers(){
-//        return allUsers;
-//    }
-//    public User getUserByEmail(String email){
-//        for(User user:allUsers){
-//            if (email.equals(user.getEmail()))
-//                return user;
-//        }
-//        return null;
-//    }
-//
-//    public void deleteUserByEmail(String email){
-//        for(int i=0;i<allUsers.size();i++){
-//            if (email.equals(allUsers.get(i).getEmail()))
-//                allUsers.remove(i);
-//        }
-//    }
-//    public void printUser(String email){
-//        Log.d("TAG","user name : "+ getUserByEmail(email).getFullName().toString() +" user email : "+ getUserByEmail(email).getEmail().toString()+" user password : "+ getUserByEmail(email).getPassword().toString());
-//    }
-//
-//
-////*******************************post************************************
-//    public void addPost(Post p){allPosts.add(p);}
-//    public List<Post> getAllPosts(){
-//        return allPosts;
-//    }
-    public Post getPostById(List<Post> allPosts,int id){
-        for(Post p:allPosts){
-            if (id==p.getPostId())
-                return p;
-        }
-        return null;
-    }
-//    public List<Post> getMyPosts(String email){
-//        List<Post> myPosts=new LinkedList<>();
-//        for(Post p:allPosts){
-//            if (email.equals(p.getEmail()))
-//                myPosts.add(p);
-//        }
-//        return myPosts;
-//    }
-//    public void deletePostById(int id){
-//        for(int i=0;i<allPosts.size();i++){
-//            if (id==allPosts.get(i).getPostId())
-//                allPosts.remove(i);
-//        }
-//    }
-//    public void printPost(int id){
-//        Log.d("TAG","post id : "+ getPostById(id).getPostId() +"post city : "+ getPostById(id).getCity().toString()+"post description : "+ getPostById(id).getDescription().toString()+"post phone : "+ getPostById(id).getEmail().toString());
-//    }
-
 }

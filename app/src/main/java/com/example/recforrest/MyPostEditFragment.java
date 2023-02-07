@@ -5,12 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -18,14 +18,12 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentMyPostEditBinding;
@@ -42,7 +40,6 @@ public class MyPostEditFragment extends Fragment {
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +47,7 @@ public class MyPostEditFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                //to remove some icons from the top menu
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
                 menu.removeItem(R.id.myPostFragment1);
@@ -74,24 +72,21 @@ public class MyPostEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         binding = FragmentMyPostEditBinding.inflate(inflater, container, false);
         id = MyPostEditFragmentArgs.fromBundle(getArguments()).getId();
-        p = Model.instance().getPostById(viewModel.getData().getValue(), id);
+        p = viewModel.getPostById(id);
         binding.progressBar.setVisibility(View.GONE);
 
-
-//        binding.myPostEditFragmentRestaurantNameEditText.setHint(p.getRestaurantName());
-//        binding.myPostEditFragmentRestaurantCityEditText.setHint(p.getCity());
-//        binding.myPostEditFragmentRestaurantDescriptionEditText.setHint(p.getDescription());
+        //set the headline of the page
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit information");
 
 
-        binding.myPostEditFragmentCancelBtn.setOnClickListener(view1 ->{
-            Navigation.findNavController(view1).popBackStack();
+        binding.myPostEditFragmentCancelBtn.setOnClickListener(newView ->{
+            Navigation.findNavController(newView).popBackStack();
         } );
 
 
-        binding.myPostEditFragmentSaveBtn.setOnClickListener(view1 ->{
+        binding.myPostEditFragmentSaveBtn.setOnClickListener(newView ->{
             binding.progressBar.setVisibility(View.VISIBLE);
 
             if(!binding.myPostEditFragmentRestaurantNameEditText.getText().toString().equals(""))
@@ -113,18 +108,16 @@ public class MyPostEditFragment extends Fragment {
                     }
                     Model.instance().addPost(p,()->{
                         binding.progressBar.setVisibility(View.GONE);
-                        Log.d("tag","123");
 
                     });
-                Navigation.findNavController(view1).popBackStack();
+                Navigation.findNavController(newView).popBackStack();
 
                 });
             }else {
                 Model.instance().addPost(p,()->{
                     binding.progressBar.setVisibility(View.GONE);
-                    Log.d("tag","123");
                 });
-            Navigation.findNavController(view1).popBackStack();
+            Navigation.findNavController(newView).popBackStack();
 
             }
         } );
@@ -148,11 +141,11 @@ public class MyPostEditFragment extends Fragment {
             }
         });
 
-        binding.chooseFromCamera.setOnClickListener(view1->{
+        binding.chooseFromCamera.setOnClickListener(newView->{
             cameraLauncher.launch(null);
         });
 
-        binding.chooseFromGallery.setOnClickListener(view1->{
+        binding.chooseFromGallery.setOnClickListener(newView->{
             galleryLauncher.launch("media/*");
         });
 
@@ -163,9 +156,9 @@ public class MyPostEditFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (p.getImg()  != null && !p.getImg().isEmpty()) {
-            Picasso.get().load(p.getImg()).placeholder(R.drawable.cold_icon).into(binding.imageView);
+            Picasso.get().load(p.getImg()).placeholder(R.drawable.no_img2).into(binding.imageView);
         }else{
-            binding.imageView.setImageResource(R.drawable.cold_icon);
+            binding.imageView.setImageResource(R.drawable.no_img2);
         }
     }
 }

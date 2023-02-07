@@ -3,9 +3,9 @@ package com.example.recforrest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -15,7 +15,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentMyPostBinding;
@@ -54,12 +52,14 @@ public class MyPostFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentActivity parentActivity = getActivity();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("My recommendations");
+
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                //remove some icons from the top menu
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
-                //menu.removeItem(R.id.userInfoFragment);
                 menu.removeItem(R.id.myPostFragment1);
             }
 
@@ -75,25 +75,19 @@ public class MyPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //View view = inflater.inflate(R.layout.fragment_my_post, container, false);
         binding = FragmentMyPostBinding.inflate(inflater, container, false);
         View view=binding.getRoot();
         if(firebaseAuth.getCurrentUser()!=null)
             email = firebaseAuth.getCurrentUser().getEmail();
         else
             email="problem in connection";
+
         swipe =view.findViewById(R.id.myPosts_swipeRefresh);
-
-
-
         list = view.findViewById(R.id.myPostFrag_rv);
         list.setHasFixedSize(true);
-
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
         adapter = new MyPostFragment.ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
-
 
         binding.myPostFragNewPostBtn.setOnClickListener(view1 ->{
 
@@ -115,11 +109,10 @@ public class MyPostFragment extends Fragment {
         });
         adapter.setOnItemClickListener((int pos)-> {
 
-                    MyPostFragmentDirections.ActionMyPostFragmentToMyPostInfoFragment action = MyPostFragmentDirections.actionMyPostFragmentToMyPostInfoFragment(pos,email);
-                    Navigation.findNavController(view).navigate(action);
+            MyPostFragmentDirections.ActionMyPostFragmentToMyPostInfoFragment action = MyPostFragmentDirections.actionMyPostFragmentToMyPostInfoFragment(pos,email);
+            Navigation.findNavController(view).navigate(action);
 
-                }
-        );
+        });
 
         return view;
 
@@ -160,9 +153,9 @@ public class MyPostFragment extends Fragment {
             city.setText(p.getCity());
             nameR.setText(p.getRestaurantName());
             if (p.getImg()  != null && !p.getImg().isEmpty()) {
-                Picasso.get().load(p.getImg()).placeholder(R.drawable.cold_icon).into(avatarImg);
+                Picasso.get().load(p.getImg()).placeholder(R.drawable.no_pic).into(avatarImg);
             }else{
-                avatarImg.setImageResource(R.drawable.cold_icon);
+                avatarImg.setImageResource(R.drawable.no_pic);
             }
         }
     }

@@ -1,12 +1,7 @@
 package com.example.recforrest.Model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.example.recforrest.MyApplication;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FieldValue;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +11,6 @@ public class User {
     private String email="";
     private String img="";
     public Long lastUpdated;
-
-
-
 
     public User(){}
     public User(String fullName, String email,String img) {
@@ -34,17 +26,6 @@ public class User {
     static final String LAST_UPDATED = "lastUpdated";
     static final String LOCAL_LAST_UPDATED = "users_local_last_update";
 
-    public static Long getLocalLastUpdate() {
-        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
-        return sharedPref.getLong(LOCAL_LAST_UPDATED, 0);
-    }
-
-    public static void setLocalLastUpdate(Long time) {
-        SharedPreferences sharedPref = MyApplication.getMyContext().getSharedPreferences("TAG", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putLong(LOCAL_LAST_UPDATED,time);
-        editor.commit();
-    }
 
     public static User fromJson(Map<String,Object> json){
         String email = (String)json.get(EMAIL);

@@ -4,18 +4,17 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentUserEditBinding;
@@ -47,10 +45,9 @@ public class UserEditFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                //remove icons from the top menu
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.myPostFragment1);
-                //menu.removeItem(R.id.postsFragment);
-
             }
 
             @Override
@@ -69,13 +66,11 @@ public class UserEditFragment extends Fragment {
         bindPic();
         binding.progressBar.setVisibility(View.GONE);
 
-        //binding.UserEditFragmentShowFullNameEditText.setHint(Model.instance().getUserByEmail(email).getFullName().toString());
+        //change the headline
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit information");
 
-
-
-        binding.UserEditFragmentSaveBtn.setOnClickListener(view1 -> {
+        binding.UserEditFragmentSaveBtn.setOnClickListener(newView -> {
             String fullName= binding.UserEditFragmentShowFullNameEditText.getText().toString();
-          //  String password= binding.UserEditFragmentShowPasswordEditText.getText().toString();
             binding.progressBar.setVisibility(View.VISIBLE);
 
             Model.instance().getAllUsers(list-> {
@@ -92,23 +87,19 @@ public class UserEditFragment extends Fragment {
                         }
                         Model.instance().addUser(user,()->{
                             binding.progressBar.setVisibility(View.GONE);
-                            Log.d("tag","123");
-
                         });
-                        Navigation.findNavController(view1).popBackStack();
+                        Navigation.findNavController(newView).popBackStack();
 
                     });
                 }else {
                     Model.instance().addUser(user,()->{
                         binding.progressBar.setVisibility(View.GONE);
-                        Log.d("tag","123");
                     });
-                    Navigation.findNavController(view1).popBackStack();
+                    Navigation.findNavController(newView).popBackStack();
 
                 }
 
             });
-
 
         } );
 
@@ -131,16 +122,16 @@ public class UserEditFragment extends Fragment {
             }
         });
 
-        binding.chooseFromCamera2.setOnClickListener(view1->{
+        binding.chooseFromCamera.setOnClickListener(newView->{
             cameraLauncher.launch(null);
         });
 
-        binding.chooseFromGallery2.setOnClickListener(view1->{
+        binding.chooseFromGallery.setOnClickListener(newView->{
             galleryLauncher.launch("media/*");
         });
 
 
-        binding.UserEditFragmentCancelBtn.setOnClickListener(view1 -> Navigation.findNavController(view1).popBackStack());
+        binding.UserEditFragmentCancelBtn.setOnClickListener(newView -> Navigation.findNavController(newView).popBackStack());
 
 
         return view;
@@ -149,9 +140,9 @@ public class UserEditFragment extends Fragment {
         Model.instance().getAllUsers(list-> {
             User user = Model.instance().getUserByEmail(list, email);
             if (user.getImg() != "") {
-                Picasso.get().load(user.getImg()).placeholder(R.drawable.cold_icon).into(binding.UserEditFragmentImageview);
+                Picasso.get().load(user.getImg()).placeholder(R.drawable.no_img2).into(binding.UserEditFragmentImageview);
             } else {
-                binding.UserEditFragmentImageview.setImageResource(R.drawable.cold_icon);
+                binding.UserEditFragmentImageview.setImageResource(R.drawable.no_img2);
             }
         });
     }

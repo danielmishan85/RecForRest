@@ -9,137 +9,206 @@
 
     <ImageView
         android:id="@+id/myPostInfoFragment_restaurant_imageview"
-        android:layout_width="289dp"
-        android:layout_height="227dp"
-        android:background="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.459"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.083" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/myPostInfoFragment_name_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="30dp"
-        android:text="restaurant:"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_restaurant_imageview"
-        tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/myPostInfoFragment_city_textview"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/border_container2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="10dp"
-        android:text="city:"
-        android:textSize="24sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_name_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/border_container3">
 
-    <TextView
-        android:id="@+id/myPostInfoFragment_description_textview"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/myPostInfoFragment_city_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/aleo_bold"
+            android:text="city:"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_edit_restaurant_name" />
+
+        <TextView
+            android:id="@+id/myPostInfoFragment_edit_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="25dp"
+            android:text="text"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_city_textview"
+            tools:ignore="DuplicateIds" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/border_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="10dp"
-        android:text="Description:"
-        android:textSize="24sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/myPostInfoFragment_weather_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_city_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/border_container2"
+        app:layout_constraintVertical_bias="0.0">
 
+        <TextView
+            android:id="@+id/myPostInfoFragment_description_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/aleo_bold"
+            android:text="Description:"
+            android:textSize="16sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="25dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/myPostInfoFragment_edit_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <Button
         android:id="@+id/myPostInfoFragment_back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="70dp"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/myPostInfoFragment_edit_btn"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_temp" />
+        app:layout_constraintTop_toBottomOf="@+id/border_container" />
 
-    <TextView
-        android:id="@+id/myPostInfoFragment_edit_restaurant_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="35dp"
-        android:text="text"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_restaurant_imageview" />
-
-    <TextView
-        android:id="@+id/myPostInfoFragment_edit_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="20dp"
-        android:text="text"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_edit_restaurant_name" />
-
-    <TextView
-        android:id="@+id/myPostInfoFragment_edit_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="15dp"
-        android:text="text"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_edit_city" />
-
-
-    <ImageView
-        android:id="@+id/myPostInfoFragment_weather_icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/myPostInfoFragment_back_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_restaurant_imageview"
-        app:layout_constraintVertical_bias="0.679" />
-
-    <TextView
-        android:id="@+id/myPostInfoFragment_temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="degree"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/myPostInfoFragment_back_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_weather_icon" />
 
     <Button
         android:id="@+id/myPostInfoFragment_edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="30dp"
-        android:text="edit"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="70dp"
+        android:text="EDIT"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/myPostInfoFragment_back_btn"
-        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_temp" />
+        app:layout_constraintTop_toBottomOf="@+id/border_container" />
 
+    <LinearLayout
+        android:id="@+id/border_container3"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/myPostInfoFragment_weather_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myPostInfoFragment_restaurant_imageview"
+        app:layout_constraintVertical_bias="0.49">
+
+
+        <TextView
+            android:id="@+id/myPostInfoFragment_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/aleo_bold"
+            android:text="restaurant:"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_restaurant_imageview"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/myPostInfoFragment_edit_restaurant_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:text="text"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_name_textview" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/myPostInfoFragment_weather_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myPostInfoFragment_restaurant_imageview" />
+
+    <TextView
+        android:id="@+id/myPostInfoFragment_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="8dp"
+        android:text="degree"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/postInfoFragment_back_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/myPostInfoFragment_weather_icon"
+        app:layout_constraintTop_toBottomOf="@+id/border_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

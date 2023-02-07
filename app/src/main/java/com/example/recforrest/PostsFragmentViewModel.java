@@ -2,10 +2,8 @@ package com.example.recforrest;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
-
 import java.util.List;
 
 public class PostsFragmentViewModel extends ViewModel {

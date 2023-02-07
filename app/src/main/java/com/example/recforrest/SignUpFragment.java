@@ -4,19 +4,17 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentSignUpBinding;
@@ -38,11 +35,9 @@ public class SignUpFragment extends Fragment {
 
     FirebaseAuth firebaseAuth;
     @NonNull FragmentSignUpBinding binding;
-    String img;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected = false;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +46,7 @@ public class SignUpFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                //remove icons from the menu
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
                 menu.removeItem(R.id.myPostFragment1);
@@ -71,8 +67,9 @@ public class SignUpFragment extends Fragment {
         firebaseAuth= FirebaseAuth.getInstance();
         binding.progressBar.setVisibility(View.GONE);
 
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Sign up");
 
-        binding.SignUpFragmentSignUpBtn.setOnClickListener((view1 -> {
+        binding.SignUpFragmentSignUpBtn.setOnClickListener((newView -> {
             binding.progressBar.setVisibility(View.VISIBLE);
 
             String name= binding.SignUpFragmentFullNameEditText.getText().toString();
@@ -157,15 +154,13 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        binding.chooseFromCamera3.setOnClickListener(view1->{
+        binding.chooseFromCamera.setOnClickListener(newView->{
             cameraLauncher.launch(null);
         });
 
-        binding.chooseFromGallery3.setOnClickListener(view1->{
+        binding.chooseFromGallery.setOnClickListener(newView->{
             galleryLauncher.launch("media/*");
         });
-
-
 
         return view;
     }

@@ -23,7 +23,7 @@
 
 
     <ImageView
-            android:id="@+id/choose_from_camera3"
+            android:id="@+id/choose_from_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/choose_from_gallery3"
+            android:id="@+id/choose_from_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -42,7 +42,7 @@
             android:src="@drawable/ic_baseline_topic_24"
             app:layout_constraintBottom_toTopOf="@+id/SignUpFragment_full_name_input"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/choose_from_camera3" />
+            app:layout_constraintTop_toBottomOf="@+id/choose_from_camera" />
 
 
 

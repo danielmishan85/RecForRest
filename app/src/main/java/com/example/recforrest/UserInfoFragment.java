@@ -1,15 +1,18 @@
 package com.example.recforrest;
 
+import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,12 +25,11 @@ import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentUserInfoBinding;
 import com.squareup.picasso.Picasso;
 
-
 public class UserInfoFragment extends Fragment {
-
     @NonNull
     FragmentUserInfoBinding binding;
     static String email;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +38,9 @@ public class UserInfoFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                //remove icons from the top menu
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.userInfoFragment);
-
-
             }
 
             @Override
@@ -53,10 +54,12 @@ public class UserInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         binding = FragmentUserInfoBinding.inflate(inflater, container, false);
+        //changing the headline of the current page
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your information");
         View view = binding.getRoot();
         email = UserInfoFragmentArgs.fromBundle(getArguments()).getEmail();
         bind(email);
-        binding.UserInfoFragmentEditUserBtn.setOnClickListener((view1 -> {
+        binding.UserInfoFragmentEditUserBtn.setOnClickListener((newView -> {
             UserInfoFragmentDirections.ActionUserInfoFragmentToUserEditFragment action = UserInfoFragmentDirections.actionUserInfoFragmentToUserEditFragment(email);
             Navigation.findNavController(view).navigate(action);
         }));
@@ -71,15 +74,19 @@ public class UserInfoFragment extends Fragment {
     }
 
     public void bind(String email){
-        Model.instance().getAllUsers(list-> {
+
+        Model.instance().getAllUsers(list->
+        {
             User user = Model.instance().getUserByEmail(list,email);
             binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
             binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
             if (user.getImg()  != null && !user.getImg().isEmpty()) {
-                Picasso.get().load(user.getImg()).placeholder(R.drawable.cold_icon).into(binding.UserInfoFragmentImageview);
+                Picasso.get().load(user.getImg()).placeholder(R.drawable.no_img2).into(binding.UserInfoFragmentImageview);
             }else{
-                binding.UserInfoFragmentImageview.setImageResource(R.drawable.cold_icon);
+                binding.UserInfoFragmentImageview.setImageResource(R.drawable.no_img2);
             }
         });
+
+
     }
 }

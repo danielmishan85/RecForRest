@@ -3,9 +3,9 @@ package com.example.recforrest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -15,7 +15,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,29 +24,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
+
 public class PostsFragment extends Fragment {
-
-
-
     PostsFragmentViewModel viewModel;
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
-    Button add;
     SwipeRefreshLayout swipe;
     FirebaseAuth firebaseAuth;
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -63,11 +52,12 @@ public class PostsFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                //remove some icons from the top menu
                 menu.removeItem(R.id.myPostFragment1);
                 menu.removeItem(R.id.postsFragment);
                 if(firebaseAuth.getCurrentUser() != null){ //if the user is logged in
                     menu.removeItem(R.id.chooseSignInOrUpFragment);
-                }else{ //first time he need to sign up+
+                }else{ //first time he need to sign up
                     menu.removeItem(R.id.userInfoFragment);
                 }
             }
@@ -86,11 +76,14 @@ public class PostsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
+
+        //changing the headline
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommendations");
+
         list = view.findViewById(R.id.postsFragment_rv);
         list.setHasFixedSize(true);
         swipe= view.findViewById(R.id.posts_swipeRefresh);
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
-       // LiveData<List<Post>> l =Model.instance().getAllPosts();
         adapter = new ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
 
@@ -98,11 +91,10 @@ public class PostsFragment extends Fragment {
 
         adapter.setOnItemClickListener((int pos)-> {
 
-                    PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
-                    Navigation.findNavController(view).navigate(action);
+            PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
+            Navigation.findNavController(view).navigate(action);
 
-                }
-        );
+        });
         viewModel.getData().observe(getViewLifecycleOwner(),list->{
             adapter.setData(list);
         });
@@ -153,9 +145,9 @@ public class PostsFragment extends Fragment {
             city.setText(p.getCity());
             nameR.setText(p.getRestaurantName());
             if (!p.getImg().equals("")) {
-                Picasso.get().load(p.getImg()).placeholder(R.drawable.cold_icon).into(avatarImg);
+                Picasso.get().load(p.getImg()).placeholder(R.drawable.no_pic).into(avatarImg);
             }else{
-                avatarImg.setImageResource(R.drawable.cold_icon);
+                avatarImg.setImageResource(R.drawable.no_pic);
             }
         }
     }
@@ -204,15 +196,5 @@ public class PostsFragment extends Fragment {
             return data.size();
         }
     }
-
-
-//    void reloadData(){
-//        binding.progressBar.setVisibility(View.VISIBLE);
-//        Model.instance().getAllStudents((stList)->{
-//            viewModel.setData(stList);
-//            adapter.setData(viewModel.getData());
-//            binding.progressBar.setVisibility(View.GONE);
-//        });
-//    }
 
 }
