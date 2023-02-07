@@ -11,11 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.Post;
-import com.example.recforrest.Model.User;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.Post;
 import com.example.recforrest.databinding.FragmentNewPostBinding;
-import com.example.recforrest.databinding.FragmentSignUpBinding;
 
 
 public class NewPostFragment extends Fragment {
@@ -44,9 +42,11 @@ public class NewPostFragment extends Fragment {
             }
             else {
 
-                Post p=new Post(Post.numOfPosts,restaurantName,city,description,email);
-                Model.instance().addPost(p);
-                Navigation.findNavController(view1).popBackStack();
+                Post p=new Post(restaurantName,city,"",description,email);
+                p.generateID();
+                Model.instance().addPost(p,()->{
+                    Navigation.findNavController(view1).popBackStack();
+                });
 
             }
 

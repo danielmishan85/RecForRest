@@ -1,6 +1,6 @@
 package com.example.recforrest;
 
-import android.media.Image;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +9,7 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -21,12 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.Post;
+import com.example.recforrest.model.Post;
 import com.example.recforrest.databinding.FragmentPostInfoBinding;
-import com.example.recforrest.databinding.FragmentSignInBinding;
-
-import java.util.List;
 
 
 public class PostInfoFragment extends Fragment {
@@ -36,10 +33,16 @@ public class PostInfoFragment extends Fragment {
     static ImageView icon;
     static TextView temperaturetv;
     Button backBtn,editBtn;
+    PostInfoFragmentViewModel viewModel;
     Post p;
-    List<Post> postsList= Model.instance().getAllPosts();
     @NonNull FragmentPostInfoBinding binding;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(PostInfoFragmentViewModel.class);
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +74,7 @@ public class PostInfoFragment extends Fragment {
         icon=view.findViewById(R.id.postInfoFragment_weather_icon);
         temperaturetv=view.findViewById(R.id.postInfoFragment_temp);
 
-        p=postsList.get(pos);
+        p=viewModel.getData().getValue().get(pos);
         this.bind(p,pos);
 
 

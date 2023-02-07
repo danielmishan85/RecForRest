@@ -1,19 +1,20 @@
 package com.example.recforrest;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.Post;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.Post;
 import com.example.recforrest.databinding.FragmentMyPostEditBinding;
-import com.example.recforrest.databinding.FragmentMyPostInfoBinding;
-
 
 
 public class MyPostEditFragment extends Fragment {
@@ -21,6 +22,15 @@ public class MyPostEditFragment extends Fragment {
     FragmentMyPostEditBinding binding;
     int id;
     Post p;
+    MyPostEditFragmentViewModel viewModel;
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(MyPostEditFragmentViewModel.class);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,9 +38,9 @@ public class MyPostEditFragment extends Fragment {
 
         binding = FragmentMyPostEditBinding.inflate(inflater, container, false);
         id = MyPostEditFragmentArgs.fromBundle(getArguments()).getId();
-        p = Model.instance().getPostById(id);
+        p = Model.instance().getPostById(viewModel.getData().getValue(), id);
 
-        View view = binding.getRoot();
+
         binding.myPostEditFragmentRestaurantNameEditText.setHint(p.getRestaurantName());
         binding.myPostEditFragmentRestaurantCityEditText.setHint(p.getCity());
         binding.myPostEditFragmentRestaurantDescriptionEditText.setHint(p.getDescription());
@@ -51,6 +61,6 @@ public class MyPostEditFragment extends Fragment {
 
             Navigation.findNavController(view1).popBackStack();
         } );
-        return view;
+        return binding.getRoot();
     }
 }

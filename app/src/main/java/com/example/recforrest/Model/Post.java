@@ -1,4 +1,4 @@
-package com.example.recforrest.Model;
+package com.example.recforrest.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,6 +28,13 @@ public class Post {
     private String email="";
     public Long lastUpdated;
 
+    public Post(String restaurantName, String city, String img, String description, String email) {
+        this.restaurantName = restaurantName;
+        this.city = city;
+        this.img = img;
+        this.description = description;
+        this.email = email;
+    }
 
 
     public Post(String postId, String restaurantName, String city, String description, String email, String img) {

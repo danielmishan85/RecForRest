@@ -1,7 +1,5 @@
 package com.example.recforrest;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,9 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.User;
-import com.example.recforrest.databinding.FragmentChooseSignInOrUpBinding;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.User;
 import com.example.recforrest.databinding.FragmentSignUpBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

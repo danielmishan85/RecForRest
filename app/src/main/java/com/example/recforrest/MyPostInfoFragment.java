@@ -1,5 +1,6 @@
 package com.example.recforrest;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -20,9 +22,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.Post;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.Post;
 import com.example.recforrest.databinding.FragmentMyPostInfoBinding;
+import com.squareup.picasso.Picasso;
 
 
 public class MyPostInfoFragment extends Fragment {
@@ -31,9 +34,17 @@ public class MyPostInfoFragment extends Fragment {
     Post p;
     static ImageView icon;
     static TextView temperaturetv;
+    ImageView avatarImg;
     String email;
     @NonNull FragmentMyPostInfoBinding binding;
+    MyPostInfoFragmentViewModel viewModel;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(MyPostInfoFragmentViewModel.class);
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +74,14 @@ public class MyPostInfoFragment extends Fragment {
         View view = binding.getRoot();
         pos= MyPostInfoFragmentArgs.fromBundle(getArguments()).getPos();
         email = MyPostInfoFragmentArgs.fromBundle(getArguments()).getEmail();
+        avatarImg = view.findViewById(R.id.myPostInfoFragment_restaurant_imageview);
 
         icon = view.findViewById(R.id.myPostInfoFragment_weather_icon);
         temperaturetv=view.findViewById(R.id.myPostInfoFragment_temp);
-        p= Model.instance().getMyPosts(email).get(pos);
+
+        p= Model.instance().getMyPosts(viewModel.getData().getValue(),email).get(pos);
         bind(p);
+
 
         binding.myPostInfoFragmentBackBtn.setOnClickListener(view1 ->{
             Navigation.findNavController(view1).popBackStack();
@@ -86,6 +100,11 @@ public class MyPostInfoFragment extends Fragment {
         binding.myPostInfoFragmentEditDescription.setText(post.getDescription());
         WeatherAPI.GetWeatherTask task = new WeatherAPI.GetWeatherTask();
         task.execute(binding.myPostInfoFragmentEditCity.getText().toString(),"my posts");
+        if (post.getImg()  != null && !post.getImg().isEmpty()) {
+            Picasso.get().load(post.getImg()).placeholder(R.drawable.cold_icon).into(avatarImg);
+        }else{
+            avatarImg.setImageResource(R.drawable.cold_icon);
+        }
     }
 
     public static void changeIconAccordingToTemp(double temperature)

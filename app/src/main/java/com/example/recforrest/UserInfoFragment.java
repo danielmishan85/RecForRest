@@ -17,9 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.User;
-import com.example.recforrest.databinding.FragmentSignUpBinding;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.User;
 import com.example.recforrest.databinding.FragmentUserInfoBinding;
 
 
@@ -53,11 +52,7 @@ public class UserInfoFragment extends Fragment {
         binding = FragmentUserInfoBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         email = UserInfoFragmentArgs.fromBundle(getArguments()).getEmail();
-
-        User user= Model.instance().getUserByEmail(email);
-        binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
-        binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
-
+        bind(email);
         binding.UserInfoFragmentEditUserBtn.setOnClickListener((view1 -> {
             UserInfoFragmentDirections.ActionUserInfoFragmentToUserEditFragment action = UserInfoFragmentDirections.actionUserInfoFragmentToUserEditFragment(email);
             Navigation.findNavController(view).navigate(action);
@@ -69,8 +64,14 @@ public class UserInfoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        User user= Model.instance().getUserByEmail(email);
-        binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
-        binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
+        bind(email);
+    }
+
+    public void bind(String email){
+        Model.instance().getAllUsers(list-> {
+            User user = Model.instance().getUserByEmail(list,email);
+            binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
+            binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
+        });
     }
 }

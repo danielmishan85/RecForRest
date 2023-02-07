@@ -17,10 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.User;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.User;
 import com.example.recforrest.databinding.FragmentUserEditBinding;
-import com.example.recforrest.databinding.FragmentUserInfoBinding;
 
 
 public class UserEditFragment extends Fragment {
@@ -54,29 +53,26 @@ public class UserEditFragment extends Fragment {
         email = UserEditFragmentArgs.fromBundle(getArguments()).getEmail();
 
 
-        binding.UserEditFragmentShowFullNameEditText.setHint(Model.instance().getUserByEmail(email).getFullName().toString());
+        //binding.UserEditFragmentShowFullNameEditText.setHint(Model.instance().getUserByEmail(email).getFullName().toString());
 
 
 
         binding.UserEditFragmentSaveBtn.setOnClickListener(view1 -> {
             String fullName= binding.UserEditFragmentShowFullNameEditText.getText().toString();
-            String password= binding.UserEditFragmentShowPasswordEditText.getText().toString();
+          //  String password= binding.UserEditFragmentShowPasswordEditText.getText().toString();
 
-            Model.instance().printUser(email);
-            User user= Model.instance().getUserByEmail(email);
+            Model.instance().getAllUsers(list-> {
+                User user = Model.instance().getUserByEmail(list,email);
+                if(!fullName.equals(""))
+                    user.setFullName(fullName);
+                Model.instance().addUser(user,()->{
+                    Navigation.findNavController(view).popBackStack();
+                });
 
-            if(!fullName.equals(""))
-                user.setFullName(fullName);
+            });
 
-
-            if(!password.equals(""))
-                user.setPassword(password);
-
-
-            Model.instance().deleteUserByEmail(email);
-            Model.instance().addUser(user);
-            Model.instance().printUser(email);
-            Navigation.findNavController(view1).popBackStack();
+//            if(!password.equals(""))
+//                user.setPassword(password);
 
 
         });

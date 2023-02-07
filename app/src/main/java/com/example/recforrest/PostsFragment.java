@@ -1,6 +1,7 @@
 package com.example.recforrest;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,11 +10,12 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +23,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.Model.Model;
-import com.example.recforrest.Model.Post;
+import com.example.recforrest.model.Model;
+import com.example.recforrest.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,12 +40,16 @@ public class PostsFragment extends Fragment {
 
 
 
-    List<Post> postsList;
+    PostsFragmentViewModel viewModel;
     RecyclerView list;
     ReviewRecyclerAdapter adapter;
     Button add;
 
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        viewModel = new ViewModelProvider(this).get(PostsFragmentViewModel.class);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,12 +79,12 @@ public class PostsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_posts, container, false);
-        postsList = Model.instance().getAllPosts();
         list = view.findViewById(R.id.postsFragment_rv);
         list.setHasFixedSize(true);
-
+//        viewModel=new PostsFragmentViewModel();
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
-        adapter = new ReviewRecyclerAdapter();
+       // LiveData<List<Post>> l =Model.instance().getAllPosts();
+        adapter = new ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
 
 
@@ -87,7 +95,17 @@ public class PostsFragment extends Fragment {
 
                 }
         );
+        viewModel.getData().observe(getViewLifecycleOwner(),list->{
+            adapter.setData(list);
+        });
 
+//        Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
+//            sr.setRefreshing(status == Model.LoadingState.LOADING);
+//        });
+//
+//        sr.setOnRefreshListener(()->{
+//            reloadData();
+//        });
         return view;
 
     }
@@ -95,19 +113,24 @@ public class PostsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        adapter.notifyDataSetChanged();
+        reloadData();
 
 
     }
 
+    void reloadData() {
+        Model.instance().refreshAllPosts();
+    }
     //--------------------- view holder ---------------------------
     class PostViewHolder extends RecyclerView.ViewHolder{
         TextView city;
         TextView nameR;
+        ImageView avatarImg;
         public PostViewHolder(@NonNull View itemView,OnItemClickListener listener) {
             super(itemView);
             city = itemView.findViewById(R.id.postsRow_city);
             nameR = itemView.findViewById(R.id.postsRow_RestaurantName_tv);
+            avatarImg = itemView.findViewById(R.id.postsRow_iv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,6 +144,11 @@ public class PostsFragment extends Fragment {
         public void bind(Post p, int pos) {
             city.setText(p.getCity());
             nameR.setText(p.getRestaurantName());
+            if (!p.getImg().equals("")) {
+                Picasso.get().load(p.getImg()).placeholder(R.drawable.cold_icon).into(avatarImg);
+            }else{
+                avatarImg.setImageResource(R.drawable.cold_icon);
+            }
         }
     }
 
@@ -135,6 +163,17 @@ public class PostsFragment extends Fragment {
     //---------------------Recycler adapter ---------------------------
     class ReviewRecyclerAdapter extends RecyclerView.Adapter<PostViewHolder>{
         OnItemClickListener listener;
+        LayoutInflater inflater;
+        List<Post> data;
+
+        public void setData(List<Post> data){
+            this.data = data;
+            notifyDataSetChanged();
+        }
+        public ReviewRecyclerAdapter(LayoutInflater inflater, List<Post> data){
+            this.inflater = inflater;
+            this.data = data;
+        }
         void setOnItemClickListener(OnItemClickListener listener){
             this.listener = listener;
         }
@@ -147,13 +186,14 @@ public class PostsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-            Post p = postsList.get(position);
+            Post p = data.get(position);
             holder.bind(p,position);
         }
 
         @Override
         public int getItemCount() {
-            return postsList.size();
+            if (data == null) return 0;
+            return data.size();
         }
     }
 
