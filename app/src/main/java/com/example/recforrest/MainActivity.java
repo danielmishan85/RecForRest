@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main_activity,menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -46,30 +46,25 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home){
             navController.popBackStack();
         }
-        if (item.getItemId() == R.id.myPostFragment){
-           // String email = UserInfoFragment.email;
+        if (item.getItemId() == R.id.postsFragment) {
+            NavDirections action= PostsFragmentDirections.actionGlobalPostsFragment();
+            Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
+            firebaseAuth.signOut();
+        }
+        if (item.getItemId() == R.id.myPostFragment1){
+            Log.d("tag","Mypostfrag: " + firebaseAuth.getCurrentUser().getEmail());
             NavDirections action= MyPostFragmentDirections.actionGlobalMyPostFragment(firebaseAuth.getCurrentUser().getEmail());
             Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
         }
         if (item.getItemId() == R.id.chooseSignInOrUpFragment){
-
-            if(firebaseAuth.getCurrentUser().getEmail()!=null) {
-                //user is already sign in
-                NavDirections action= MyPostFragmentDirections.actionGlobalMyPostFragment(firebaseAuth.getCurrentUser().getEmail());
-                Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
-
-            }
-            else{
-                NavDirections action= ChooseSignInOrUpFragmentDirections.actionGlobalChooseSignInOrUpFragment();
-                Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
-            }
+            Log.d("tag","notLoggedIn");
+            NavDirections action= ChooseSignInOrUpFragmentDirections.actionGlobalChooseSignInOrUpFragment();
+            Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
         }
 
-        if (item.getItemId() == R.id.postsFragment) {
-            firebaseAuth.signOut();
-            NavDirections action= PostsFragmentDirections.actionGlobalPostsFragment();
+        if (item.getItemId() == R.id.userInfoFragment){
+            NavDirections action= UserInfoFragmentDirections.actionGlobalUserInfoFragment(firebaseAuth.getCurrentUser().getEmail());
             Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
-
         }
 
 

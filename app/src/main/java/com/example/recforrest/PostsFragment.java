@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class PostsFragment extends Fragment {
     ReviewRecyclerAdapter adapter;
     Button add;
     SwipeRefreshLayout swipe;
+    FirebaseAuth firebaseAuth;
 
 
     @Override
@@ -57,14 +59,17 @@ public class PostsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentActivity parentActivity = getActivity();
+        firebaseAuth= FirebaseAuth.getInstance();
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                //menu.removeItem(R.id.chooseSignInOrUpFragment);
+                menu.removeItem(R.id.myPostFragment1);
                 menu.removeItem(R.id.postsFragment);
-                menu.removeItem(R.id.myPostFragment);
-
-
+                if(firebaseAuth.getCurrentUser() != null){ //if the user is logged in
+                    menu.removeItem(R.id.chooseSignInOrUpFragment);
+                }else{ //first time he need to sign up+
+                    menu.removeItem(R.id.userInfoFragment);
+                }
             }
 
             @Override

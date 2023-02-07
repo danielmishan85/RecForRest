@@ -45,9 +45,8 @@ public class NewPostFragment extends Fragment {
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
-                menu.removeItem(R.id.myPostFragment);
-
-
+                menu.removeItem(R.id.myPostFragment1);
+                menu.removeItem(R.id.userInfoFragment);
             }
 
             @Override

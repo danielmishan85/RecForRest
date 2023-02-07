@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.example.recforrest.Model.Model;
 import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentMyPostBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class MyPostFragment extends Fragment {
     String email;
     MyPostFragmentViewModel viewModel;
     SwipeRefreshLayout swipe;
+    FirebaseAuth firebaseAuth =  FirebaseAuth.getInstance();
 
 
     @Override
@@ -55,11 +57,10 @@ public class MyPostFragment extends Fragment {
         parentActivity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                //menu.removeItem(R.id.chooseSignInOrUpFragment);
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
-                //menu.removeItem(R.id.myPostFragment);
-
-
+                //menu.removeItem(R.id.userInfoFragment);
+                menu.removeItem(R.id.myPostFragment1);
             }
 
             @Override
@@ -78,8 +79,11 @@ public class MyPostFragment extends Fragment {
         //View view = inflater.inflate(R.layout.fragment_my_post, container, false);
         binding = FragmentMyPostBinding.inflate(inflater, container, false);
         View view=binding.getRoot();
-        email= MyPostFragmentArgs.fromBundle(getArguments()).getEmail();
-         swipe =view.findViewById(R.id.myPosts_swipeRefresh);
+        if(firebaseAuth.getCurrentUser()!=null)
+            email = firebaseAuth.getCurrentUser().getEmail();
+        else
+            email="problem in connection";
+        swipe =view.findViewById(R.id.myPosts_swipeRefresh);
 
 
 

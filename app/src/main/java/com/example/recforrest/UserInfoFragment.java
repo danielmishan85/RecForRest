@@ -37,6 +37,8 @@ public class UserInfoFragment extends Fragment {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
+                menu.removeItem(R.id.userInfoFragment);
+
 
             }
 

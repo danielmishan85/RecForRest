@@ -8,15 +8,22 @@
         android:icon="@drawable/ic_baseline_login_24"
         app:showAsAction="ifRoom"
         android:title="log in" />
+
+    <item
+        android:id="@+id/userInfoFragment"
+        android:icon="@drawable/ic_baseline_perm_identity_24"
+        app:showAsAction="ifRoom"
+        android:title="log in" />
+
     <item
         android:id="@+id/postsFragment"
         android:icon="@drawable/ic_baseline_logout_24"
-        app:showAsAction="ifRoom"
-        android:title="log in" />
+        app:showAsAction="always"
+        android:title="log out" />
     <item
-        android:id="@+id/myPostFragment"
+        android:id="@+id/myPostFragment1"
         android:icon="@drawable/ic_baseline_file_copy_24"
         app:showAsAction="ifRoom"
-        android:title="log in"
+        android:title="my posts"
         tools:ignore="DuplicateIds"/>
 </menu>
