@@ -2,8 +2,8 @@ package com.example.recforrest;
 
 import androidx.lifecycle.ViewModel;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.User;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.User;
 
 import java.util.LinkedList;
 import java.util.List;

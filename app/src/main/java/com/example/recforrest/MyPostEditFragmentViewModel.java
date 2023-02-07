@@ -3,8 +3,8 @@ package com.example.recforrest;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.Post;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.Post;
 
 import java.util.List;
 

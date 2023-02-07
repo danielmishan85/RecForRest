@@ -25,8 +25,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.Post;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentMyPostBinding;
 import com.squareup.picasso.Picasso;
 
@@ -57,7 +57,7 @@ public class MyPostFragment extends Fragment {
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 //menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
-                menu.removeItem(R.id.myPostFragment);
+                //menu.removeItem(R.id.myPostFragment);
 
 
             }

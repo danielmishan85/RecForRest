@@ -1,4 +1,5 @@
-package com.example.recforrest.model;
+//package com.example.recforrest.Model;
+package com.example.recforrest.Model;
 
 import android.graphics.Bitmap;
 import android.net.Uri;

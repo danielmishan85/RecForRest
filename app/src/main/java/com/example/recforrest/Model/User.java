@@ -1,4 +1,4 @@
-package com.example.recforrest.model;
+package com.example.recforrest.Model;
 
 import android.content.Context;
 import android.content.SharedPreferences;

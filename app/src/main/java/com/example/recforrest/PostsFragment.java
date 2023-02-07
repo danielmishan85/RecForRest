@@ -26,8 +26,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.Post;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.Post;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

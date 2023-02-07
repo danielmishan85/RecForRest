@@ -9,16 +9,23 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.Post;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentNewPostBinding;
 
 
@@ -29,12 +36,33 @@ public class NewPostFragment extends Fragment {
     ActivityResultLauncher<String> galleryLauncher;
     Boolean isAvatarSelected  = false;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentActivity parentActivity = getActivity();
+        parentActivity.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menu.removeItem(R.id.chooseSignInOrUpFragment);
+                menu.removeItem(R.id.postsFragment);
+                menu.removeItem(R.id.myPostFragment);
+
+
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        }, this, Lifecycle.State.RESUMED);
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentNewPostBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         String email = NewPostFragmentArgs.fromBundle(getArguments()).getEmail();
+        binding.progressBar.setVisibility(View.GONE);
 
 
         binding.newPostFragCancelBtn.setOnClickListener(view1->{
@@ -42,6 +70,8 @@ public class NewPostFragment extends Fragment {
         });
 
         binding.newPostFragSaveBtn.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+
             String restaurantName= binding.newPostFragmentRestaurantNameEditText.getText().toString();
             String city= binding.newPostFragmentRestaurantCityEditText.getText().toString();
             String description= binding.newPostFragmentRestaurantDescriptionEditText.getText().toString();
@@ -61,14 +91,14 @@ public class NewPostFragment extends Fragment {
                             p.setImg(url);
                         }
                         Model.instance().addPost(p,()->{
-//                            pb.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
                             Navigation.findNavController(view).popBackStack();
 
                         });
                     });
                 }else {
                     Model.instance().addPost(p,()->{
-//                        pb.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
                         Navigation.findNavController(view).popBackStack();
 
                     });

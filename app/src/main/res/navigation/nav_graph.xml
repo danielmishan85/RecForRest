@@ -123,5 +123,5 @@
         <argument
             android:name="id"
             app:argType="integer" />
-    </fragment>
+    </fragment><action android:id="@+id/action_global_chooseSignInOrUpFragment" app:destination="@id/chooseSignInOrUpFragment"/><action android:id="@+id/action_global_postsFragment" app:destination="@id/postsFragment"/>
 </navigation>

@@ -7,114 +7,115 @@
     tools:context=".MyPostEditFragment">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="40dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/choose_from_camera"
+            <Button
+                android:id="@+id/myPostEditFragment_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="50dp"
+                android:text="cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantDescription_input" />
+
+            <ImageView
+                android:id="@+id/choose_from_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_baseline_photo_camera_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/choose_from_gallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_baseline_topic_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choose_from_camera" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/myPostEditFragment_RestaurantName_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/myPostEditFragment_RestaurantName_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Restaurant Name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/myPostEditFragment_RestaurantCity_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantName_input"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/myPostEditFragment_RestaurantCity_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="City" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="50dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/myPostEditFragment_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="30dp"
+                android:text="save"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantDescription_input" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/myPostEditFragment_RestaurantDescription_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantCity_input"
+                tools:ignore="MissingConstraints">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/myPostEditFragment_RestaurantDescription_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Description" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/ic_baseline_photo_camera_24"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/choose_from_gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_baseline_topic_24"
-        app:layout_constraintBottom_toTopOf="@+id/myPostEditFragment_RestaurantName_input"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_from_camera" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/myPostEditFragment_RestaurantName_input"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:ignore="MissingConstraints">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/myPostEditFragment_RestaurantName_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Restaurant Name" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/myPostEditFragment_RestaurantCity_input"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantName_input"
-        tools:ignore="MissingConstraints">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/myPostEditFragment_RestaurantCity_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="City" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/myPostEditFragment_RestaurantDescription_input"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantCity_input"
-        tools:ignore="MissingConstraints">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/myPostEditFragment_RestaurantDescription_editText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Description" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/myPostEditFragment_save_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="save"
-        app:layout_constraintEnd_toStartOf="@+id/myPostEditFragment_cancel_btn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantDescription_input" />
-
-    <Button
-        android:id="@+id/myPostEditFragment_cancel_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/myPostEditFragment_save_btn"
-        app:layout_constraintTop_toBottomOf="@+id/myPostEditFragment_RestaurantDescription_input" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

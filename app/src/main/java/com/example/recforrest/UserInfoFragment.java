@@ -17,9 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.User;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentUserInfoBinding;
+import com.squareup.picasso.Picasso;
 
 
 public class UserInfoFragment extends Fragment {
@@ -72,6 +73,11 @@ public class UserInfoFragment extends Fragment {
             User user = Model.instance().getUserByEmail(list,email);
             binding.MyReviewDetailsFragmentShowEmailTextView.setText(user.getEmail().toString());
             binding.MyReviewDetailsFragmentShowFullNameTextView.setText(user.getFullName().toString());
+            if (user.getImg()  != null && !user.getImg().isEmpty()) {
+                Picasso.get().load(user.getImg()).placeholder(R.drawable.cold_icon).into(binding.UserInfoFragmentImageview);
+            }else{
+                binding.UserInfoFragmentImageview.setImageResource(R.drawable.cold_icon);
+            }
         });
     }
 }

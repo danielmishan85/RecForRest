@@ -61,8 +61,10 @@ public class SignInFragment extends Fragment {
         binding = FragmentSignInBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         firebaseAuth= FirebaseAuth.getInstance();
+        binding.progressBar.setVisibility(View.GONE);
 
         binding.SignInFragmentSignInBtn.setOnClickListener((view1) -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
 
             String email=binding.SignInFragmentEmailEditText.getText().toString();
             String password=binding.SignInFragmentPasswordEditText.getText().toString();
@@ -82,29 +84,20 @@ public class SignInFragment extends Fragment {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         SignInFragmentDirections.ActionSignInFragmentToUserInfoFragment action = SignInFragmentDirections.actionSignInFragmentToUserInfoFragment(email);
+                        binding.progressBar.setVisibility(View.GONE);
                         Navigation.findNavController(view).navigate(action);
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        binding.progressBar.setVisibility(View.GONE);
 
                     }
                 });
 
             }
-//                User user = Model.instance().getUserByEmail(email);
-//                if (user != null) {
-//                    if (!user.getPassword().equals(password)) {
-//                        Toast.makeText(getActivity().getApplicationContext(), "Wrong password", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        SignInFragmentDirections.ActionSignInFragmentToUserInfoFragment action = SignInFragmentDirections.actionSignInFragmentToUserInfoFragment(email);
-//                        Navigation.findNavController(view).navigate(action);
-//                    }
-//                } else {
-//                    Toast.makeText(getActivity().getApplicationContext(), "Wrong email", Toast.LENGTH_LONG).show();
-//                }
-//            }
+
             else {
                 Toast.makeText(getActivity().getApplicationContext(), "fill all the fields", Toast.LENGTH_LONG).show();
 

@@ -22,8 +22,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.model.Post;
+import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentPostInfoBinding;
+import com.squareup.picasso.Picasso;
 
 
 public class PostInfoFragment extends Fragment {
@@ -88,6 +89,11 @@ public class PostInfoFragment extends Fragment {
         binding.postInfoFragmentEditCity.setText(post.getCity());
         binding.postInfoFragmentEditRestaurantName.setText(post.getRestaurantName());
         binding.postInfoFragmentEditDescription.setText(post.getDescription());
+        if (post.getImg()  != null && !post.getImg().isEmpty()) {
+            Picasso.get().load(post.getImg()).placeholder(R.drawable.cold_icon).into(binding.postInfoFragmentRestaurantImageview);
+        }else{
+            binding.postInfoFragmentRestaurantImageview.setImageResource(R.drawable.cold_icon);
+        }
         WeatherAPI.GetWeatherTask task = new WeatherAPI.GetWeatherTask();
         task.execute(binding.postInfoFragmentEditCity.getText().toString(),"all posts");
     }

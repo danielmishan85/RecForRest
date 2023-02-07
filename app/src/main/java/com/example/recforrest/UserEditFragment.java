@@ -24,8 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.User;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentUserEditBinding;
 import com.squareup.picasso.Picasso;
 
@@ -65,6 +65,7 @@ public class UserEditFragment extends Fragment {
         View view = binding.getRoot();
         email = UserEditFragmentArgs.fromBundle(getArguments()).getEmail();
         bindPic();
+        binding.progressBar.setVisibility(View.GONE);
 
         //binding.UserEditFragmentShowFullNameEditText.setHint(Model.instance().getUserByEmail(email).getFullName().toString());
 
@@ -73,6 +74,7 @@ public class UserEditFragment extends Fragment {
         binding.UserEditFragmentSaveBtn.setOnClickListener(view1 -> {
             String fullName= binding.UserEditFragmentShowFullNameEditText.getText().toString();
           //  String password= binding.UserEditFragmentShowPasswordEditText.getText().toString();
+            binding.progressBar.setVisibility(View.VISIBLE);
 
             Model.instance().getAllUsers(list-> {
                 User user = Model.instance().getUserByEmail(list,email);
@@ -87,7 +89,7 @@ public class UserEditFragment extends Fragment {
                             user.setImg(url);
                         }
                         Model.instance().addUser(user,()->{
-                            //pb.setVisibility(View.GONE);
+                            binding.progressBar.setVisibility(View.GONE);
                             Log.d("tag","123");
 
                         });
@@ -96,7 +98,7 @@ public class UserEditFragment extends Fragment {
                     });
                 }else {
                     Model.instance().addUser(user,()->{
-                        //  pb.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
                         Log.d("tag","123");
                     });
                     Navigation.findNavController(view1).popBackStack();

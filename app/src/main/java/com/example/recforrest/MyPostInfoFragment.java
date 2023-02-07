@@ -22,8 +22,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.Post;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.Post;
 import com.example.recforrest.databinding.FragmentMyPostInfoBinding;
 import com.squareup.picasso.Picasso;
 
@@ -80,11 +80,6 @@ public class MyPostInfoFragment extends Fragment {
         temperaturetv=view.findViewById(R.id.myPostInfoFragment_temp);
 
         p= Model.instance().getMyPosts(viewModel.getData().getValue(),email).get(pos);
-        if (p.getImg()  != null && !p.getImg().isEmpty()) {
-            Picasso.get().load(p.getImg()).placeholder(R.drawable.cold_icon).into(avatarImg);
-        }else{
-            avatarImg.setImageResource(R.drawable.cold_icon);
-        }
         bind(p);
 
 

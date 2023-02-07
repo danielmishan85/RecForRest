@@ -1,4 +1,4 @@
-package com.example.recforrest.model;
+package com.example.recforrest.Model;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

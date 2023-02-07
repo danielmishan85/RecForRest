@@ -1,7 +1,13 @@
 package com.example.recforrest;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MenuProvider;
@@ -10,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.recforrest.model.Model;
-import com.example.recforrest.model.User;
+import com.example.recforrest.Model.Model;
+import com.example.recforrest.Model.User;
 import com.example.recforrest.databinding.FragmentSignUpBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +38,11 @@ public class SignUpFragment extends Fragment {
 
     FirebaseAuth firebaseAuth;
     @NonNull FragmentSignUpBinding binding;
+    String img;
+    ActivityResultLauncher<Void> cameraLauncher;
+    ActivityResultLauncher<String> galleryLauncher;
+    Boolean isAvatarSelected = false;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,21 +70,54 @@ public class SignUpFragment extends Fragment {
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         firebaseAuth= FirebaseAuth.getInstance();
+        binding.progressBar.setVisibility(View.GONE);
 
 
         binding.SignUpFragmentSignUpBtn.setOnClickListener((view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
 
             String name= binding.SignUpFragmentFullNameEditText.getText().toString();
             String email= binding.SignUpFragmentEmailEditText.getText().toString();
             String pass= binding.SignUpFragmentPasswordEditText.getText().toString();
 
             if(!(pass.equals("")) && !(email.equals("")) && !(name.equals("")) ) {
+                    User user=new User(name,email,"");
+                    if (isAvatarSelected){
+                        binding.SignUpFragmentImage.setDrawingCacheEnabled(true);
+                        binding.SignUpFragmentImage.buildDrawingCache();
+                        Bitmap bitmap = ((BitmapDrawable) binding.SignUpFragmentImage.getDrawable()).getBitmap();
+                        Model.instance().uploadImage(String.valueOf(user.getEmail()), bitmap, url->{
+                            if (url != null){
+                                user.setImg(url);
+                            }
+                            Model.instance().addUser(user,()->{
+                                firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        SignUpFragmentDirections.ActionSignUpFragmentToUserInfoFragment action = SignUpFragmentDirections.actionSignUpFragmentToUserInfoFragment(binding.SignUpFragmentEmailEditText.getText().toString());
+                                        binding.progressBar.setVisibility(View.GONE);
+                                        Navigation.findNavController(view).navigate(action);
+                                    }
+
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        binding.progressBar.setVisibility(View.GONE);
+                                        Toast.makeText(getActivity().getApplicationContext(), e+"", Toast.LENGTH_LONG).show();
 
 
-                Model.instance().addUser(new User(name,email,""),()->{
+                                    }
+                                });
+
+                            });
+                            });
+
+                    }else {
+                        Model.instance().addUser(user,()->{
                             firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
+                                    binding.progressBar.setVisibility(View.GONE);
                                     SignUpFragmentDirections.ActionSignUpFragmentToUserInfoFragment action = SignUpFragmentDirections.actionSignUpFragmentToUserInfoFragment(binding.SignUpFragmentEmailEditText.getText().toString());
                                     Navigation.findNavController(view).navigate(action);
                                 }
@@ -80,26 +125,47 @@ public class SignUpFragment extends Fragment {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    SignUpFragmentDirections.ActionSignUpFragmentToUserInfoFragment action = SignUpFragmentDirections.actionSignUpFragmentToUserInfoFragment(binding.SignUpFragmentEmailEditText.getText().toString());
-                                    Navigation.findNavController(view).navigate(action);
+                                    binding.progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(getActivity().getApplicationContext(), e+"", Toast.LENGTH_LONG).show();
+
                                 }
                             });
-
-                });
-
+                        });
+                    }
             }else{
                 Toast.makeText(getActivity().getApplicationContext(), "fill all the fields", Toast.LENGTH_LONG).show();
-
             }
         }));
 
 
 
-//
-//            Model.instance().addUser(new User(binding.SignUpFragmentFullNameEditText.getText().toString(),binding.SignUpFragmentEmailEditText.getText().toString(),binding.SignUpFragmentPasswordEditText.getText().toString()));
-//
-//            SignUpFragmentDirections.ActionSignUpFragmentToUserInfoFragment action = SignUpFragmentDirections.actionSignUpFragmentToUserInfoFragment(binding.SignUpFragmentEmailEditText.getText().toString());
-//            Navigation.findNavController(view).navigate(action);
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+            @Override
+            public void onActivityResult(Bitmap result) {
+                if (result != null) {
+                    binding.SignUpFragmentImage.setImageBitmap(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+                if (result != null){
+                    binding.SignUpFragmentImage.setImageURI(result);
+                    isAvatarSelected = true;
+                }
+            }
+        });
+
+        binding.chooseFromCamera3.setOnClickListener(view1->{
+            cameraLauncher.launch(null);
+        });
+
+        binding.chooseFromGallery3.setOnClickListener(view1->{
+            galleryLauncher.launch("media/*");
+        });
+
 
 
         return view;
