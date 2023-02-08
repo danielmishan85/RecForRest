@@ -85,7 +85,7 @@ public class NewPostFragment extends Fragment {
             else {
                 //of the user fill all the input
                 Post p=new Post(restaurantName,city,"",description,email);
-                p.generateID();
+                p.randomId();
                 if (isAvatarSelected){
                     binding.imageView.setDrawingCacheEnabled(true);
                     binding.imageView.buildDrawingCache();

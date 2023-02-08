@@ -53,6 +53,10 @@ public class Model {
         return new User();
     }
 
+
+
+//POSTS
+
     public Post getPostById(List<Post> allPosts,int id){
         for(Post p:allPosts){
             if (id==p.getPostId())
@@ -60,8 +64,6 @@ public class Model {
         }
         return null;
     }
-
-//POSTS
 
     public LiveData<List<Post>> getAllPosts() {
         if(postsList == null){
@@ -80,18 +82,14 @@ public class Model {
             executor.execute(()->{
                 Log.d("TAG", " firebase return : " + list.size());
                 Long time = localLastUpdate;
-                for(Post st:list){
+                for(Post p:list){
                     // insert new records into ROOM
-                    localDb.postDao().insertAll(st);
-                    if (time < st.getLastUpdated()){
-                        time = st.getLastUpdated();
+                    localDb.postDao().insertAll(p);
+                    if (time < p.getLastUpdated()){
+                        time = p.getLastUpdated();
                     }
                 }
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 // update local last update
                 Post.setLocalLastUpdate(time);
                 EventReviewsListLoadingState.postValue(LoadingState.NOT_LOADING);

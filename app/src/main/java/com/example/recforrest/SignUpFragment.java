@@ -99,7 +99,7 @@ public class SignUpFragment extends Fragment {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         binding.progressBar.setVisibility(View.GONE);
-                                        Toast.makeText(getActivity().getApplicationContext(), e+"", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
 
                                     }
@@ -122,7 +122,7 @@ public class SignUpFragment extends Fragment {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     binding.progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(getActivity().getApplicationContext(), e+"", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
                                 }
                             });

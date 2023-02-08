@@ -53,22 +53,7 @@ public class FireBaseModel {
                 });
     }
 
-    public void getAllPosts(Model.Listener<List<Post>> callback){
-        db.collection(Post.COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<Post> list = new LinkedList<>();
-                if (task.isSuccessful()){
-                    QuerySnapshot jsonsList = task.getResult();
-                    for (DocumentSnapshot json: jsonsList){
-                        Post post = Post.fromJson(json.getData());
-                        list.add(post);
-                    }
-                }
-                callback.onComplete(list);
-            }
-        });
-    }
+
 
     public void addPost(Post post, Model.Listener2<Void> listener) {
         db.collection(Post.COLLECTION).document(Integer.toString(post.getPostId())).set(post.toJson())

@@ -46,7 +46,7 @@ public class Post {
         this.img=img;
     }
 
-    public void generateID(){
+    public void randomId(){
         Random rand = new Random();
         this.postId = rand.nextInt((200000 - 100000) + 1) + 100000;
         while(Model.instance().getPostById(Model.instance().getAllPosts().getValue(),postId) != null)

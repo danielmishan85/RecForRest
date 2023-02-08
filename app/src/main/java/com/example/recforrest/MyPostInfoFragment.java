@@ -29,7 +29,6 @@ import com.squareup.picasso.Picasso;
 public class MyPostInfoFragment extends Fragment {
 
     int pos;
-    Post p;
     static ImageView icon;
     static TextView temperaturetv;
     ImageView avatarImg;
@@ -82,16 +81,14 @@ public class MyPostInfoFragment extends Fragment {
         icon = view.findViewById(R.id.myPostInfoFragment_weather_icon);
         temperaturetv=view.findViewById(R.id.myPostInfoFragment_temp);
 
-        p= viewModel.getMyData(viewModel.getData().getValue(),email).get(pos);
-
-        bind(p);
+        bind(viewModel.getPostByEmailAndPos(email,pos));
 
         binding.myPostInfoFragmentBackBtn.setOnClickListener(newView ->{
             Navigation.findNavController(newView).popBackStack();
         } );
 
         binding.myPostInfoFragmentEditBtn.setOnClickListener(newView ->{
-            NavDirections action = MyPostInfoFragmentDirections.actionMyPostInfoFragmentToMyPostEditFragment(p.getPostId());
+            NavDirections action = MyPostInfoFragmentDirections.actionMyPostInfoFragmentToMyPostEditFragment(viewModel.getPostByEmailAndPos(email,pos).getPostId());
             Navigation.findNavController(newView).navigate(action);
         } );
         return view;
@@ -137,13 +134,13 @@ public class MyPostInfoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        bind(p);
+        bind(viewModel.getPostByEmailAndPos(email,pos));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        bind(p);
+        bind(viewModel.getPostByEmailAndPos(email,pos));
 
     }
 }

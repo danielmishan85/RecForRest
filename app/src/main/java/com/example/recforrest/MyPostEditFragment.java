@@ -34,7 +34,6 @@ public class MyPostEditFragment extends Fragment {
 
     FragmentMyPostEditBinding binding;
     int id;
-    Post p;
     MyPostEditFragmentViewModel viewModel;
     ActivityResultLauncher<Void> cameraLauncher;
     ActivityResultLauncher<String> galleryLauncher;
@@ -74,7 +73,6 @@ public class MyPostEditFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentMyPostEditBinding.inflate(inflater, container, false);
         id = MyPostEditFragmentArgs.fromBundle(getArguments()).getId();
-        p = viewModel.getPostById(id);
         binding.progressBar.setVisibility(View.GONE);
 
         //set the headline of the page
@@ -90,23 +88,23 @@ public class MyPostEditFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
 
             if(!binding.myPostEditFragmentRestaurantNameEditText.getText().toString().equals(""))
-                p.setRestaurantName(binding.myPostEditFragmentRestaurantNameEditText.getText().toString());
+                viewModel.getPostById(id).setRestaurantName(binding.myPostEditFragmentRestaurantNameEditText.getText().toString());
 
             if(!binding.myPostEditFragmentRestaurantCityEditText.getText().toString().equals(""))
-                p.setCity(binding.myPostEditFragmentRestaurantCityEditText.getText().toString());
+                viewModel.getPostById(id).setCity(binding.myPostEditFragmentRestaurantCityEditText.getText().toString());
 
             if(!binding.myPostEditFragmentRestaurantDescriptionEditText.getText().toString().equals(""))
-                p.setDescription(binding.myPostEditFragmentRestaurantDescriptionEditText.getText().toString());
+                viewModel.getPostById(id).setDescription(binding.myPostEditFragmentRestaurantDescriptionEditText.getText().toString());
 
             if (isAvatarSelected){
                 binding.imageView.setDrawingCacheEnabled(true);
                 binding.imageView.buildDrawingCache();
                 Bitmap bitmap = ((BitmapDrawable) binding.imageView.getDrawable()).getBitmap();
-                Model.instance().uploadImage(String.valueOf(p.getPostId()), bitmap, url->{
+                Model.instance().uploadImage(String.valueOf(id), bitmap, url->{
                     if (url != null){
-                        p.setImg(url);
+                        viewModel.getPostById(id).setImg(url);
                     }
-                    Model.instance().addPost(p,()->{
+                    Model.instance().addPost(viewModel.getPostById(id),()->{
                         binding.progressBar.setVisibility(View.GONE);
 
                     });
@@ -114,7 +112,7 @@ public class MyPostEditFragment extends Fragment {
 
                 });
             }else {
-                Model.instance().addPost(p,()->{
+                Model.instance().addPost( viewModel.getPostById(id),()->{
                     binding.progressBar.setVisibility(View.GONE);
                 });
             Navigation.findNavController(newView).popBackStack();
@@ -155,8 +153,8 @@ public class MyPostEditFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (p.getImg()  != null && !p.getImg().isEmpty()) {
-            Picasso.get().load(p.getImg()).placeholder(R.drawable.no_img2).into(binding.imageView);
+        if ( viewModel.getPostById(id).getImg()  != null && ! viewModel.getPostById(id).getImg().isEmpty()) {
+            Picasso.get().load( viewModel.getPostById(id).getImg()).placeholder(R.drawable.no_img2).into(binding.imageView);
         }else{
             binding.imageView.setImageResource(R.drawable.no_img2);
         }

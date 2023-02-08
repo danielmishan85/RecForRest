@@ -98,6 +98,7 @@ public class SignInFragment extends Fragment {
             }
 
             else { //if he does not fill all the fields
+                binding.progressBar.setVisibility(View.GONE);
                 Toast.makeText(getActivity().getApplicationContext(), "fill all the fields", Toast.LENGTH_LONG).show();
 
             }

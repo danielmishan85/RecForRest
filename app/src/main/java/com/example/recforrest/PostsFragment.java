@@ -90,15 +90,17 @@ public class PostsFragment extends Fragment {
 
 
         adapter.setOnItemClickListener((int pos)-> {
-
             PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
             Navigation.findNavController(view).navigate(action);
 
         });
+
+        //happens when the list change
         viewModel.getData().observe(getViewLifecycleOwner(),list->{
             adapter.setData(list);
         });
 
+        //visual loading
         Model.instance().EventReviewsListLoadingState.observe(getViewLifecycleOwner(),status->{
             swipe.setRefreshing(status == Model.LoadingState.LOADING);
         });
@@ -114,8 +116,6 @@ public class PostsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         reloadData();
-
-
     }
 
     void reloadData() {

@@ -139,7 +139,7 @@ public class UserEditFragment extends Fragment {
     public void bindPic(){
         Model.instance().getAllUsers(list-> {
             User user = Model.instance().getUserByEmail(list, email);
-            if (user.getImg() != "") {
+            if (user.getImg()  != null && !user.getImg().isEmpty()) {
                 Picasso.get().load(user.getImg()).placeholder(R.drawable.no_img2).into(binding.UserEditFragmentImageview);
             } else {
                 binding.UserEditFragmentImageview.setImageResource(R.drawable.no_img2);

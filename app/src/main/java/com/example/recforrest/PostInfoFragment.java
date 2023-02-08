@@ -30,7 +30,6 @@ public class PostInfoFragment extends Fragment {
     static ImageView icon;
     static TextView temperaturetv;
     PostInfoFragmentViewModel viewModel;
-    Post p;
     @NonNull FragmentPostInfoBinding binding;
 
 
@@ -73,8 +72,8 @@ public class PostInfoFragment extends Fragment {
         icon=view.findViewById(R.id.postInfoFragment_weather_icon);
         temperaturetv=view.findViewById(R.id.postInfoFragment_temp);
 
-        p=viewModel.getData().getValue().get(pos);
-        this.bind(p);
+
+        this.bind(viewModel.getData().getValue().get(pos));
 
         binding.postInfoFragmentBackBtn.setOnClickListener(view1 ->{
             Navigation.findNavController(view1).popBackStack();
@@ -118,6 +117,6 @@ public class PostInfoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        bind(p);
+        bind(viewModel.getData().getValue().get(pos));
     }
 }

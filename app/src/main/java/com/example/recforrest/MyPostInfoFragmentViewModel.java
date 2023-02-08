@@ -16,4 +16,10 @@ public class MyPostInfoFragmentViewModel extends ViewModel {
     LiveData<List<Post>> getData() {
         return data;
     }
+
+    Post getPostByEmailAndPos(String email,int pos)
+    {
+        return getMyData(getData().getValue(),email).get(pos);
+    }
+
 }

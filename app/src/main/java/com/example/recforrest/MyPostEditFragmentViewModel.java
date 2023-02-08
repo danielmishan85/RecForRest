@@ -10,7 +10,6 @@ import java.util.List;
 public class MyPostEditFragmentViewModel extends ViewModel {
 
     private LiveData<List<Post>> data = Model.instance().getAllPosts();
-    private Post p;
 
     Post getPostById(int id)
     {
@@ -18,7 +17,4 @@ public class MyPostEditFragmentViewModel extends ViewModel {
     }
 
 
-    LiveData<List<Post>> getData() {
-        return data;
-    }
 }
