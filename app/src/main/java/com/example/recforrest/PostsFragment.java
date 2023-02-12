@@ -87,8 +87,6 @@ public class PostsFragment extends Fragment {
         adapter = new ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
 
-
-
         adapter.setOnItemClickListener((int pos)-> {
             PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);
             Navigation.findNavController(view).navigate(action);
