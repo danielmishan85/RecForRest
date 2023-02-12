@@ -206,7 +206,6 @@
         android:layout_marginBottom="8dp"
         android:text="degree"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/postInfoFragment_back_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/myPostInfoFragment_weather_icon"
         app:layout_constraintTop_toBottomOf="@+id/border_container" />

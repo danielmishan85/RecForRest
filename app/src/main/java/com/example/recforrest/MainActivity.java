@@ -39,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home){
             navController.popBackStack();
         }
+
+        if (item.getItemId() == R.id.backhome){
+            navController.popBackStack();
+            NavDirections action= PostsFragmentDirections.actionGlobalPostsFragment();
+            Navigation.findNavController(this, R.id.main_nav_host).navigate(action);
+        }
+
         if (item.getItemId() == R.id.postsFragment) {
             NavDirections action= PostsFragmentDirections.actionGlobalPostsFragment();
             Navigation.findNavController(this, R.id.main_nav_host).navigate(action);

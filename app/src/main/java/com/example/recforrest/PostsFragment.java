@@ -55,6 +55,8 @@ public class PostsFragment extends Fragment {
                 //remove some icons from the top menu
                 menu.removeItem(R.id.myPostFragment1);
                 menu.removeItem(R.id.postsFragment);
+                menu.removeItem(R.id.backhome);
+
                 if(firebaseAuth.getCurrentUser() != null){ //if the user is logged in
                     menu.removeItem(R.id.chooseSignInOrUpFragment);
                 }else{ //first time he need to sign up
@@ -86,6 +88,8 @@ public class PostsFragment extends Fragment {
         list.setLayoutManager(new LinearLayoutManager(getContext())); //define the recycler view to be a list
         adapter = new ReviewRecyclerAdapter(getLayoutInflater(),viewModel.getData().getValue());
         list.setAdapter(adapter);
+
+
 
         adapter.setOnItemClickListener((int pos)-> {
             PostsFragmentDirections.ActionPostsFragmentToPostInfoFragment action = PostsFragmentDirections.actionPostsFragmentToPostInfoFragment(pos);

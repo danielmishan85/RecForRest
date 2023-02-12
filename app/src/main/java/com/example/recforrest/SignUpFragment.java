@@ -50,6 +50,7 @@ public class SignUpFragment extends Fragment {
                 menu.removeItem(R.id.chooseSignInOrUpFragment);
                 menu.removeItem(R.id.postsFragment);
                 menu.removeItem(R.id.myPostFragment1);
+                menu.removeItem(R.id.userInfoFragment);
             }
 
             @Override

@@ -90,6 +90,7 @@ public class SignInFragment extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity().getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         binding.progressBar.setVisibility(View.GONE);
 
                     }

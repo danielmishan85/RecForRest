@@ -80,6 +80,7 @@ public class NewPostFragment extends Fragment {
 
             //in case of some of the input is empty the user will get a notification
             if(restaurantName.equals("")||city.equals("")||description.equals("")){
+                binding.progressBar.setVisibility(View.GONE);
                 Toast.makeText(getActivity().getApplicationContext(),"Please fill all the inputs",Toast.LENGTH_LONG).show();
             }
             else {
