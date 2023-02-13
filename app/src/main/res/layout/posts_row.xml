@@ -40,7 +40,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:fontFamily="@font/alfa_slab_one"
                 android:text="TextView"
                 android:textAlignment="center"
                 android:textSize="20sp"
