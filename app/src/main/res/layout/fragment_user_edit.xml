@@ -8,7 +8,7 @@
     tools:context=".UserEditFragment">
 
     <ScrollView
-        android:id="@+id/fi"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:fillViewport="true"
