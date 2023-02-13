@@ -63,7 +63,7 @@ public class NewPostFragment extends Fragment {
         binding.progressBar.setVisibility(View.GONE);
 
         //change the headline of the application
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("New post");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("New recommendation");
 
         binding.newPostFragCancelBtn.setOnClickListener(newView->{
             Navigation.findNavController(newView).popBackStack();

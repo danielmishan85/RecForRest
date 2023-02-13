@@ -76,7 +76,7 @@ public class MyPostEditFragment extends Fragment {
         binding.progressBar.setVisibility(View.GONE);
 
         //set the headline of the page
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit information");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit recommendation info");
 
 
         binding.myPostEditFragmentCancelBtn.setOnClickListener(newView ->{

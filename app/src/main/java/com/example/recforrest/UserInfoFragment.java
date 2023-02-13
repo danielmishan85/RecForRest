@@ -57,7 +57,7 @@ public class UserInfoFragment extends Fragment {
 
         binding = FragmentUserInfoBinding.inflate(inflater, container, false);
         //changing the headline of the current page
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your information");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Profile");
         View view = binding.getRoot();
         email=UserInfoFragmentArgs.fromBundle(getArguments()).getEmail();
         bind(email);

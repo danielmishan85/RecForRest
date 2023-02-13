@@ -67,7 +67,7 @@ public class UserEditFragment extends Fragment {
         binding.progressBar.setVisibility(View.GONE);
 
         //change the headline
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit information");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Edit profile");
 
         binding.UserEditFragmentSaveBtn.setOnClickListener(newView -> {
             String fullName= binding.UserEditFragmentShowFullNameEditText.getText().toString();

@@ -72,7 +72,7 @@ public class MyPostInfoFragment extends Fragment {
         View view = binding.getRoot();
 
         //changing the headline of the page
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Post information");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommendation info");
 
         pos= MyPostInfoFragmentArgs.fromBundle(getArguments()).getPos();
         email = MyPostInfoFragmentArgs.fromBundle(getArguments()).getEmail();

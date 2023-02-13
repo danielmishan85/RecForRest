@@ -67,7 +67,7 @@ public class PostInfoFragment extends Fragment {
         pos = PostInfoFragmentArgs.fromBundle(getArguments()).getPos();
 
         //change the headline of the current page
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Post information");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recommendation info");
 
         icon=view.findViewById(R.id.postInfoFragment_weather_icon);
         temperaturetv=view.findViewById(R.id.postInfoFragment_temp);
