@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.example.recforrest.databinding.FragmentChooseSignInOrUpBinding;
 
 public class ChooseSignInOrUpFragment extends Fragment {
@@ -41,7 +43,6 @@ public class ChooseSignInOrUpFragment extends Fragment {
                 return false;
             }
         },this, Lifecycle.State.RESUMED);
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
